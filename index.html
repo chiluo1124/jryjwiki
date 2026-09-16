@@ -1,21 +1,315 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <title>旧日余烬设定WIKI</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>旧日余烬设定WIKI</title>
+<style>
+:root {
+  --bg: #0a0a0f;
+  --card: #12121c;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --accent: #8b5cf6;
+  --accent2: #ec4899;
+  --border: #1e293b;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Noto Sans SC', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+header {
+  background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(236,72,153,0.2));
+  border-bottom: 1px solid var(--border);
+  padding: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.logo {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+}
+.search-box {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.05);
+  color: white;
+  font-size: 1rem;
+}
+.search-box:focus { outline: none; border-color: var(--accent); }
+nav {
+  max-width: 1200px;
+  margin: 1rem auto;
+  display: flex;
+  gap: 1rem;
+  padding: 0 1rem;
+  flex-wrap: wrap;
+}
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+nav a:hover { background: rgba(139,92,246,0.1); color: var(--accent); }
+.hero {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem 1rem;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(236,72,153,0.1));
+  border-radius: 16px;
+  border: 1px solid var(--border);
+}
+.hero h1 { font-size: 2rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero p { color: var(--muted); max-width: 600px; margin: 0 auto 1.5rem; }
+.tags { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
+.tag { padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.875rem; background: rgba(139,92,246,0.2); color: var(--accent); }
+.stats { max-width: 1200px; margin: 2rem auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; padding: 0 1rem; }
+.stat-card { background: var(--card); padding: 1rem; border-radius: 12px; text-align: center; border: 1px solid var(--border); }
+.stat-number { font-size: 2rem; font-weight: bold; color: var(--accent); }
+.stat-label { color: var(--muted); font-size: 0.875rem; }
+section { max-width: 1200px; margin: 3rem auto; padding: 0 1rem; }
+section h2 { font-size: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; transition: all 0.3s; }
+.card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.card h3 { color: var(--accent); margin-bottom: 0.5rem; }
+.card p { color: var(--muted); font-size: 0.9rem; }
+.timeline { position: relative; padding-left: 2rem; }
+.timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--accent); }
+.timeline-item { position: relative; margin-bottom: 1.5rem; padding-left: 1rem; }
+.timeline-item::before { content: ''; position: absolute; left: -2.35rem; top: 0.5rem; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); }
+footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.875rem; border-top: 1px solid var(--border); margin-top: 4rem; }
+@media (max-width: 768px) {
+  .header-inner { flex-direction: column; }
+  .search-box { width: 100%; }
+  nav { justify-content: center; }
+}
+</style>
 </head>
 <body>
-  <div id="app"></div>
-  <script>
-    window.$docsify = {
-      loadSidebar: true,
-      subMaxLevel: 3,
-      search: 'auto',
-      name: '旧日余烬设定WIKI'
-    }
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">余</div>
+    <input type="text" class="search-box" placeholder="搜索人物、势力、名词..." id="searchInput">
+  </div>
+</header>
+
+<nav>
+  <a href="#overview">世界观</a>
+  <a href="#chars">人物</a>
+  <a href="#factions">势力</a>
+  <a href="#disasters">魇灾</a>
+  <a href="#timeline">编年史</a>
+  <a href="#terms">名词解释</a>
+  <a href="#chapters">章节</a>
+</nav>
+
+<div class="hero">
+  <h1>旧日余烬设定WIKI</h1>
+  <p>“我叫余烬，既是旧日的余烬，也是文明的余烬。”</p>
+  <div class="tags">
+    <span class="tag">都市异能</span>
+    <span class="tag">梦境入侵</span>
+    <span class="tag">群像</span>
+    <span class="tag">魇灾</span>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat-card"><div class="stat-number" id="charCount">9</div><div class="stat-label">人物</div></div>
+  <div class="stat-card"><div class="stat-number" id="factionCount">6</div><div class="stat-label">势力</div></div>
+  <div class="stat-card"><div class="stat-number" id="disasterCount">3</div><div class="stat-label">魇灾</div></div>
+  <div class="stat-card"><div class="stat-number" id="chapterCount">60</div><div class="stat-label">章节</div></div>
+</div>
+
+<section id="overview">
+  <h2>世界观总览</h2>
+  <div class="card" style="margin-bottom:1rem;">
+    <p>在这个世界，人的梦境有概率引发灾变，这种灾难依托噩梦具现于现实，被称为<strong>魇灾</strong>。魇灾毫无规律，降临时相当于把梦中世界投影到现实，随着扩散会逐渐凝实、覆盖甚至取代现实。</p>
+    <p style="margin-top:0.5rem;">为了守护现实，<strong>梦境监测管理委员会</strong>成立，其下属的<strong>魇灾应急处理事务局</strong>专门应对魇灾。觉醒者被称为<strong>梦境行者</strong>，分为织梦、窥梦、窃梦、驭梦四途。</p>
+  </div>
+</section>
+
+<section id="chars">
+  <h2>人物</h2>
+  <div class="grid" id="charGrid"></div>
+</section>
+
+<section id="factions">
+  <h2>势力组织</h2>
+  <div class="grid" id="factionGrid"></div>
+</section>
+
+<section id="disasters">
+  <h2>魇灾图鉴</h2>
+  <div class="grid" id="disasterGrid"></div>
+</section>
+
+<section id="timeline">
+  <h2>编年史</h2>
+  <div class="timeline" id="timelineList"></div>
+</section>
+
+<section id="terms">
+  <h2>名词解释</h2>
+  <div class="grid" id="termGrid"></div>
+</section>
+
+<section id="chapters">
+  <h2>章节目录（1-60章）</h2>
+  <div class="grid" id="chapterGrid"></div>
+</section>
+
+<footer>
+  <p>旧日余烬设定WIKI | 作者：一月九十秋 | 非官方粉丝站</p>
+  <p>数据来源：小说1-60章 | 持续更新中</p>
+</footer>
+
+<script>
+// ===== 数据 =====
+const chars = [
+  { name: "余烬", desc: "灾后调查4组干员，哥哥余响在魇灾中牺牲。拥有红发余烬人格，可通过讥笑左轮具现。", tags: "主角/调查组" },
+  { name: "红发余烬", desc: "余烬的分裂人格，拥有骨刃和触须能力，可独立行动。", tags: "人格/战力" },
+  { name: "汤耀庭", desc: "余烬的死党，同为灾后调查4组，性格没心没肺，喜欢卷腹。", tags: "配角/调查组" },
+  { name: "夏桀", desc: "23岁，患有解离性身份认知障碍，永夜门徒预备役，青鸟街惨案凶手。", tags: "反派/凶手" },
+  { name: "梅雨", desc: "灾后调查组主任，脾气火爆，家人均为守护城市牺牲。", tags: "长辈/领导" },
+  { name: "李戟", desc: "事务局东大区负责人，外表不修边幅，实力深不可测。", tags: "领导/特反" },
+  { name: "周礼", desc: "特反172队梦境侧写师，擅长心理分析。", tags: "特反/心理" },
+  { name: "郑先", desc: "特反172队队长，菠萝头，性格跳脱。", tags: "特反/队长" },
+  { name: "吴心婷", desc: "蝎尾巷据点二把手，伪装成实习护士潜入曙光医院。", tags: "反派/永夜门徒" }
+];
+
+const factions = [
+  { name: "魇灾应急处理事务局", desc: "专门应对魇灾的机构，下设灾后调查组、特殊反应组等。" },
+  { name: "梦境监测管理委员会", desc: "事务局的上级机构，统筹梦境相关事务。" },
+  { name: "特殊反应组（特反）", desc: "一线处理魇灾的精锐小队，如6队、172队。" },
+  { name: "灾后调查组", desc: "魇灾后的回访与调查，余烬所在部门。" },
+  { name: "永夜门徒", desc: "夜魇狂信徒，利用魇灾作恶，崇拜夜魇。" },
+  { name: "梦境勘探开发研究院", desc: "研究魇灾与梦境的学术机构。" }
+];
+
+const disasters = [
+  { name: "青鸟街魇灾（第一次）", desc: "夏桀设计杀害特反6队，引发C级魇灾。" },
+  { name: "青鸟街魇灾（第二次）", desc: "余烬因悲痛昏睡引发，红发余烬具现。" },
+  { name: "曙光医院事件", desc: "永夜门徒潜入医院，计划使用造梦药剂引发魇灾。" }
+];
+
+const timeline = [
+  { time: "一年前", event: "余烬的哥哥余响在魇灾中牺牲。" },
+  { time: "昨天（故事开始）", event: "青鸟街发生家庭纠纷，实为魇灾前兆。" },
+  { time: "黎明前", event: "特反6队进入梦境，全员失踪。" },
+  { time: "第二天早", event: "余烬带队调查，遭遇青鸟街惨案，4组几乎全灭。" },
+  { time: "当晚", event: "余烬昏睡，魇灾再次降临，红发余烬具现。" },
+  { time: "后续", event: "余烬开始追查夏桀，潜入饕餮街，发现医院阴谋。" }
+];
+
+const terms = [
+  { name: "魇灾", desc: "梦境具现引发的灾难，分为C级等不同等级。" },
+  { name: "梦境行者", desc: "在梦中觉醒并获得超凡能力的人。" },
+  { name: "织梦/窥梦/窃梦/驭梦", desc: "梦境行者的四种分类途径。" },
+  { name: "永夜门徒", desc: "崇拜夜魇的极端组织。" },
+  { name: "造梦药剂", desc: "地下科学研制的药剂，可人为提高魇灾概率。" },
+  { name: "讥笑左轮", desc: "神秘女人赠予余烬的魇器，可收容并具现人格。" }
+];
+
+const chapters = [];
+for (let i = 1; i <= 60; i++) {
+  chapters.push({ name: `第${i}章`, desc: `点击查看详情（待补充）` });
+}
+
+// ===== 渲染函数 =====
+function renderChars(filter = "") {
+  const grid = document.getElementById("charGrid");
+  grid.innerHTML = "";
+  chars.filter(c => c.name.includes(filter) || c.desc.includes(filter)).forEach(c => {
+    grid.innerHTML += `<div class="card"><h3>${c.name}</h3><p>${c.desc}</p><small style="color:var(--accent)">${c.tags}</small></div>`;
+  });
+}
+
+function renderFactions(filter = "") {
+  const grid = document.getElementById("factionGrid");
+  grid.innerHTML = "";
+  factions.filter(f => f.name.includes(filter) || f.desc.includes(filter)).forEach(f => {
+    grid.innerHTML += `<div class="card"><h3>${f.name}</h3><p>${f.desc}</p></div>`;
+  });
+}
+
+function renderDisasters(filter = "") {
+  const grid = document.getElementById("disasterGrid");
+  grid.innerHTML = "";
+  disasters.filter(d => d.name.includes(filter) || d.desc.includes(filter)).forEach(d => {
+    grid.innerHTML += `<div class="card"><h3>${d.name}</h3><p>${d.desc}</p></div>`;
+  });
+}
+
+function renderTimeline() {
+  const list = document.getElementById("timelineList");
+  list.innerHTML = "";
+  timeline.forEach(t => {
+    list.innerHTML += `<div class="timeline-item"><strong>${t.time}</strong>：${t.event}</div>`;
+  });
+}
+
+function renderTerms(filter = "") {
+  const grid = document.getElementById("termGrid");
+  grid.innerHTML = "";
+  terms.filter(t => t.name.includes(filter) || t.desc.includes(filter)).forEach(t => {
+    grid.innerHTML += `<div class="card"><h3>${t.name}</h3><p>${t.desc}</p></div>`;
+  });
+}
+
+function renderChapters(filter = "") {
+  const grid = document.getElementById("chapterGrid");
+  grid.innerHTML = "";
+  chapters.filter(c => c.name.includes(filter)).forEach(c => {
+    grid.innerHTML += `<div class="card"><h3>${c.name}</h3><p>${c.desc}</p></div>`;
+  });
+}
+
+// ===== 搜索 =====
+document.getElementById("searchInput").addEventListener("input", (e) => {
+  const val = e.target.value;
+  renderChars(val);
+  renderFactions(val);
+  renderDisasters(val);
+  renderTerms(val);
+  renderChapters(val);
+});
+
+// ===== 初始化 =====
+renderChars();
+renderFactions();
+renderDisasters();
+renderTimeline();
+renderTerms();
+renderChapters();
+</script>
+
 </body>
 </html>
