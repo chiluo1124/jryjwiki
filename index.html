@@ -3,313 +3,873 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>旧日余烬设定WIKI</title>
+<title>旧日余烬 | 设定百科 WIKI</title>
+<meta name="description" content="《旧日余烬》小说设定百科：人物、势力、魇灾、世界观、梦境行者测试">
 <style>
-:root {
-  --bg: #0a0a0f;
-  --card: #12121c;
-  --text: #e2e8f0;
-  --muted: #94a3b8;
-  --accent: #8b5cf6;
-  --accent2: #ec4899;
-  --border: #1e293b;
+:root{
+  --bg:#0a0c12;--bg2:#10131c;--panel:#151925;--panel2:#1c2030;
+  --line:#272d3d;--text:#e2e8f0;--muted:#8892a6;
+  --accent:#8b5cf6;--accent2:#ec4899;--accent3:#22d3ee;--accent4:#fbbf24;
+  --weave:#8b5cf6;--peek:#22d3ee;--steal:#fbbf24;--ride:#ec4899;
+  --danger:#ef4444;--ok:#22c55e;
+  --shadow:0 10px 40px rgba(0,0,0,.5);
+  --radius:16px;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: 'Noto Sans SC', system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);
+  font-family:"Noto Sans SC","Microsoft YaHei","PingFang SC",system-ui,sans-serif;
+  line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-2;
+  background:radial-gradient(900px 600px at 85% -5%,rgba(139,92,246,.16),transparent 60%),
+             radial-gradient(700px 500px at -5% 15%,rgba(236,72,153,.10),transparent 55%),
+             var(--bg)}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.35;
+  background-image:linear-gradient(rgba(139,92,246,.04) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(139,92,246,.04) 1px,transparent 1px);
+  background-size:48px 48px}
+a{color:var(--accent3);text-decoration:none}
+::selection{background:var(--accent);color:#fff}
+
+/* ===== 滚动进度条 ===== */
+#scrollBar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));z-index:999;width:0}
+
+/* ===== 顶部导航 ===== */
+.nav{position:sticky;top:0;z-index:100;backdrop-filter:blur(14px);background:rgba(10,12,18,.78);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:1320px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-weight:800;font-size:18px}
+.logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:grid;place-items:center;font-size:18px;font-weight:900;box-shadow:0 4px 16px rgba(139,92,246,.5)}
+.brand small{display:block;font-weight:500;font-size:10px;color:var(--muted);letter-spacing:1.5px}
+.search{flex:1;min-width:170px;position:relative}
+.search input{width:100%;padding:9px 14px 9px 38px;border-radius:11px;border:1px solid var(--line);
+  background:var(--bg2);color:var(--text);font-size:14px;outline:none}
+.search input:focus{border-color:var(--accent)}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.55}
+#results{position:absolute;top:calc(100% + 6px);left:0;right:0;border:1px solid var(--line);border-radius:12px;
+  background:var(--bg2);overflow:hidden;display:none;z-index:200;max-height:60vh;overflow-y:auto}
+#results.show{display:block}
+#results a{display:block;padding:10px 15px;border-bottom:1px solid var(--line);font-size:13.5px}
+#results a small{display:block;color:var(--muted);font-size:11px}
+.nav-links{display:flex;gap:4px;flex-wrap:wrap}
+.nav-links a{padding:7px 12px;border-radius:9px;font-size:13px;color:var(--muted);font-weight:600;transition:.15s}
+.nav-links a:hover,.nav-links a.active{color:#fff;background:var(--panel)}
+.nav-links a.cta{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff}
+
+/* ===== 布局 ===== */
+.wrap{max-width:1320px;margin:0 auto;padding:22px 20px 60px;display:grid;grid-template-columns:250px 1fr;gap:24px}
+.side{position:sticky;top:66px;align-self:start;max-height:calc(100vh - 86px);overflow:auto;padding-right:2px}
+.side::-webkit-scrollbar,.toc::-webkit-scrollbar,.modal-body::-webkit-scrollbar{width:6px}
+.side::-webkit-scrollbar-thumb,.toc::-webkit-scrollbar-thumb,.modal-body::-webkit-scrollbar-thumb{border-radius:3px;background:var(--line)}
+.side-group{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:9px;margin-bottom:12px}
+.side-group h4{padding:8px 10px;font-size:11px;color:var(--muted);letter-spacing:1.5px;display:flex;align-items:center;gap:7px;text-transform:uppercase}
+.side-group h4 span{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.side-group a{display:block;padding:7px 12px;border-radius:8px;font-size:13px;color:var(--text);transition:.15s}
+.side-group a:hover{background:rgba(139,92,246,.14);color:#fff}
+.side-group a .tag{float:right;font-size:10px;color:var(--muted)}
+main{min-width:0}
+
+/* ===== Hero ===== */
+.hero{position:relative;overflow:hidden;border-radius:20px;padding:42px 36px;margin-bottom:22px;
+  background:radial-gradient(circle at 88% 15%,rgba(236,72,153,.35),transparent 45%),
+             linear-gradient(120deg,#1a0b2e 0%,#0f1b35 55%,#0a0c12 100%);
+  border:1px solid var(--line);box-shadow:var(--shadow)}
+.hero::after{content:"余烬";position:absolute;right:26px;bottom:-16px;font-size:120px;font-weight:900;
+  color:rgba(255,255,255,.05);letter-spacing:6px;pointer-events:none}
+.badge-new{display:inline-block;padding:4px 11px;border-radius:20px;font-size:11px;font-weight:700;
+  background:rgba(251,191,36,.15);color:var(--accent4);border:1px solid rgba(251,191,36,.4);margin-bottom:14px}
+.breadcrumb{font-size:13px;color:var(--muted);margin-bottom:12px}
+.breadcrumb b{color:var(--accent3)}
+.hero h1{font-size:clamp(28px,5vw,48px);font-weight:900;line-height:1.15;margin-bottom:12px;
+  background:linear-gradient(90deg,#fff 30%,var(--accent2) 72%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .sub{color:var(--muted);font-size:15px;max-width:740px}
+.hero-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.tag-pill{padding:6px 13px;border-radius:20px;font-size:12.5px;font-weight:700;background:rgba(255,255,255,.07);border:1px solid var(--line)}
+.tag-pill.hot{background:linear-gradient(90deg,var(--accent),var(--accent2));border:none;color:#fff}
+.hero-actions{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+.btn{padding:11px 22px;border-radius:11px;font-size:14px;font-weight:700;border:none;cursor:pointer;transition:.2s;font-family:inherit}
+.btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 6px 20px rgba(139,92,246,.4)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(139,92,246,.55)}
+.btn-ghost{background:rgba(255,255,255,.06);color:var(--text);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--accent)}
+
+/* ===== 通用 ===== */
+section{margin-bottom:28px;scroll-margin-top:80px}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+.sec-head h2{font-size:21px;font-weight:800;display:flex;align-items:center;gap:10px}
+.sec-head h2 .bar{width:5px;height:22px;border-radius:3px;background:linear-gradient(var(--accent),var(--accent2))}
+.sec-head a{font-size:13px;color:var(--muted)}
+.sec-head .desc{width:100%;font-size:13px;color:var(--muted);margin-top:4px}
+.grid{display:grid;gap:14px}
+.grid.c4{grid-template-columns:repeat(4,1fr)}
+.grid.c3{grid-template-columns:repeat(3,1fr)}
+.grid.c2{grid-template-columns:repeat(2,1fr)}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px;transition:.2s;position:relative;overflow:hidden}
+.card:hover{border-color:var(--accent);transform:translateY(-3px)}
+.card .icon{font-size:30px;margin-bottom:10px}
+.card h3{font-size:16px;margin-bottom:6px}
+.card p{font-size:13px;color:var(--muted)}
+
+/* 统计 */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;position:relative;overflow:hidden}
+.stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--accent),var(--accent2))}
+.stat .num{font-size:30px;font-weight:900;background:linear-gradient(90deg,var(--accent3),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat .lab{font-size:12.5px;color:var(--muted);margin-top:2px}
+
+/* 四途卡片 */
+.path-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px;transition:.25s;cursor:default;position:relative;overflow:hidden}
+.path-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;opacity:0;transition:.25s}
+.path-card:hover{transform:translateY(-4px)}
+.path-card:hover::before{opacity:1}
+.path-card .p-icon{font-size:34px;margin-bottom:10px}
+.path-card h3{font-size:17px;margin-bottom:4px}
+.path-card .p-key{font-size:11px;letter-spacing:2px;font-weight:800;opacity:.8}
+.path-card p{font-size:12.5px;color:var(--muted);margin-top:8px}
+.path-card .p-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.path-card .p-tags span{padding:3px 9px;border-radius:6px;font-size:11px;background:rgba(255,255,255,.06)}
+.path-weave{border-color:rgba(139,92,246,.4)} .path-weave::before,.path-weave .p-key{background:var(--weave);color:#fff}
+.path-peek{border-color:rgba(34,211,238,.4)} .path-peek::before,.path-peek .p-key{background:var(--peek);color:#000}
+.path-steal{border-color:rgba(251,191,36,.4)} .path-steal::before,.path-steal .p-key{background:var(--accent4);color:#000}
+.path-ride{border-color:rgba(236,72,153,.4)} .path-ride::before,.path-ride .p-key{background:var(--accent2);color:#fff}
+
+/* 人物卡 */
+.char{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:.2s}
+.char:hover{border-color:var(--accent2)}
+.char .thumb{height:110px;position:relative;display:grid;place-items:center;font-size:48px}
+.char .thumb::before{content:"";position:absolute;inset:0;background:linear-gradient(160deg,var(--g1,#4c1d95),var(--g2,#0f172a))}
+.char .info{padding:13px}
+.char .info h3{font-size:14.5px;margin-bottom:2px}
+.char .info .role{font-size:11px;color:var(--accent2);font-weight:700}
+.char .info .aff{font-size:11px;color:var(--accent3);margin-top:1px}
+.char .info p{font-size:12px;color:var(--muted);margin-top:6px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+
+/* 章节 */
+.chapter-list{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.chapter-list .row{display:grid;grid-template-columns:60px 1fr auto;align-items:center;padding:11px 18px;border-bottom:1px solid var(--line);font-size:13.5px;transition:.15s}
+.chapter-list .row:last-child{border-bottom:none}
+.chapter-list .row:hover{background:rgba(139,92,246,.10)}
+.chapter-list .no{color:var(--accent);font-weight:800}
+.chapter-list .title{font-weight:600}
+.chapter-list .vol{font-size:11px;padding:3px 9px;border-radius:6px;background:rgba(34,211,238,.12);color:var(--accent3);white-space:nowrap}
+.vol-group{margin-bottom:10px;font-size:12px;color:var(--accent4);font-weight:700;padding:4px 2px}
+
+/* 词条正文 */
+.entry{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:26px 28px;margin-bottom:22px}
+.entry .eyebrow{font-size:11px;color:var(--accent2);letter-spacing:2px;font-weight:700}
+.entry h1{font-size:25px;margin:6px 0 4px}
+.entry .aka{color:var(--muted);font-size:13px;margin-bottom:16px}
+.infobox{float:right;width:260px;margin:0 0 18px 22px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg2)}
+.infobox .hd{padding:11px 14px;font-weight:800;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.infobox table{width:100%;font-size:12.5px}
+.infobox td{padding:8px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+.infobox td:first-child{color:var(--muted);width:78px;white-space:nowrap}
+.entry h2{font-size:17px;margin:20px 0 9px;padding-left:12px;border-left:4px solid var(--accent)}
+.entry h3{font-size:14.5px;margin:14px 0 7px;color:var(--accent3)}
+.entry p{margin-bottom:11px;color:#cdd5e3}
+.entry ul{padding-left:22px;margin-bottom:11px}
+.entry li{margin-bottom:5px}
+.entry .quote{border-left:3px solid var(--accent2);padding:10px 16px;background:rgba(236,72,153,.06);border-radius:0 10px 10px 0;font-style:italic;color:#d8dde8;margin:12px 0}
+.clear{clear:both}
+.cite{font-size:11px;color:var(--muted);vertical-align:super}
+
+/* 时间线 */
+.timeline{position:relative;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--accent),var(--accent2))}
+.tl-item{position:relative;margin-bottom:16px}
+.tl-item::before{content:"";position:absolute;left:-22px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--accent3);box-shadow:0 0 0 3px rgba(34,211,238,.2)}
+.tl-item .t{font-size:11.5px;color:var(--accent2);font-weight:700}
+.tl-item p{font-size:13px;color:#cdd5e3}
+
+/* ===== 测试功能 ===== */
+.quiz-hero{background:linear-gradient(135deg,rgba(139,92,246,.14),rgba(34,211,238,.10));border:1px solid var(--line);border-radius:var(--radius);padding:28px;margin-bottom:20px;position:relative;overflow:hidden}
+.quiz-hero::after{content:"梦";position:absolute;right:18px;bottom:-22px;font-size:110px;font-weight:900;color:rgba(255,255,255,.05)}
+.quiz-progress{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.quiz-progress .bar-wrap{flex:1;height:8px;border-radius:20px;background:var(--bg2);overflow:hidden;border:1px solid var(--line)}
+.quiz-progress .bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s;border-radius:20px}
+.quiz-progress .num{font-size:13px;color:var(--muted);white-space:nowrap;font-weight:600}
+.q-text{font-size:19px;font-weight:700;margin-bottom:6px;line-height:1.5}
+.q-sub{font-size:12.5px;color:var(--muted);margin-bottom:18px}
+.q-options{display:grid;gap:11px}
+.q-opt{display:flex;align-items:flex-start;gap:13px;padding:15px 17px;border:1px solid var(--line);border-radius:12px;
+  background:var(--bg2);cursor:pointer;transition:.18s;text-align:left;font-family:inherit;color:var(--text);font-size:14px;width:100%}
+.q-opt:hover{border-color:var(--accent);background:rgba(139,92,246,.08)}
+.q-opt.sel{border-color:var(--accent2);background:rgba(236,72,153,.10);box-shadow:0 0 0 1px var(--accent2)}
+.q-opt .letter{width:28px;height:28px;border-radius:8px;background:var(--panel2);display:grid;place-items:center;font-weight:800;font-size:13px;flex-shrink:0;border:1px solid var(--line)}
+.q-opt.sel .letter{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none}
+.q-opt .o-text{flex:1}
+.q-opt .o-w{display:block;font-size:10.5px;color:var(--muted);margin-top:3px;letter-spacing:.5px}
+.quiz-btns{display:flex;justify-content:space-between;margin-top:20px;gap:12px;flex-wrap:wrap}
+.result-types{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.result-type{flex-direction:column;align-items:flex-start;cursor:default}
+.result-type .pct{font-size:26px;font-weight:900;margin-top:6px}
+.result-type .bar-wrap{width:100%;height:6px;border-radius:10px;background:var(--bg2);margin-top:10px;overflow:hidden}
+.result-type .bar{height:100%;border-radius:10px;width:0;transition:width 1s}
+.result-main{text-align:center;padding:20px 0 8px}
+.result-main .big{font-size:64px;margin-bottom:8px}
+.result-main h3{font-size:26px;margin-bottom:6px}
+.result-main .sub{color:var(--muted);font-size:14px}
+.result-desc{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:20px;margin:18px 0}
+.result-desc h4{color:var(--accent);margin-bottom:8px}
+.result-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+
+/* ===== 页脚 ===== */
+footer{text-align:center;padding:40px 20px 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:30px}
+footer .links{margin-bottom:14px}
+footer .links a{margin:0 12px;color:var(--muted)}
+footer .links a:hover{color:var(--accent2)}
+
+/* 回到顶部 */
+#toTop{position:fixed;right:20px;bottom:24px;width:46px;height:46px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;cursor:pointer;
+  font-size:20px;box-shadow:0 6px 20px rgba(139,92,246,.45);opacity:0;transform:translateY(20px);transition:.25s;z-index:90}
+#toTop.show{opacity:1;transform:translateY(0)}
+
+/* 响应式 */
+@media(max-width:980px){
+  .wrap{grid-template-columns:1fr;padding:14px 14px 50px}
+  .side{position:static;max-height:none;display:none}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .grid.c4,.grid.c3{grid-template-columns:repeat(2,1fr)}
+  .grid.c2{grid-template-columns:1fr}
+  .result-types{grid-template-columns:repeat(2,1fr)}
+  .infobox{float:none;width:auto;margin:0 0 16px}
+  .chapter-list .row{grid-template-columns:46px 1fr;gap:10px}
+  .chapter-list .vol{display:none}
+  .nav-links{order:3;width:100%}
+  .quiz-hero{padding:20px}
+  .q-text{font-size:16px}
 }
-header {
-  background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(236,72,153,0.2));
-  border-bottom: 1px solid var(--border);
-  padding: 1rem;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  backdrop-filter: blur(10px);
-}
-.header-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-.logo {
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: white;
-}
-.search-box {
-  flex: 1;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  border: 1px solid var(--border);
-  background: rgba(255,255,255,0.05);
-  color: white;
-  font-size: 1rem;
-}
-.search-box:focus { outline: none; border-color: var(--accent); }
-nav {
-  max-width: 1200px;
-  margin: 1rem auto;
-  display: flex;
-  gap: 1rem;
-  padding: 0 1rem;
-  flex-wrap: wrap;
-}
-nav a {
-  color: var(--muted);
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  transition: all 0.3s;
-}
-nav a:hover { background: rgba(139,92,246,0.1); color: var(--accent); }
-.hero {
-  max-width: 1200px;
-  margin: 2rem auto;
-  padding: 2rem 1rem;
-  text-align: center;
-  background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(236,72,153,0.1));
-  border-radius: 16px;
-  border: 1px solid var(--border);
-}
-.hero h1 { font-size: 2rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.hero p { color: var(--muted); max-width: 600px; margin: 0 auto 1.5rem; }
-.tags { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
-.tag { padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.875rem; background: rgba(139,92,246,0.2); color: var(--accent); }
-.stats { max-width: 1200px; margin: 2rem auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; padding: 0 1rem; }
-.stat-card { background: var(--card); padding: 1rem; border-radius: 12px; text-align: center; border: 1px solid var(--border); }
-.stat-number { font-size: 2rem; font-weight: bold; color: var(--accent); }
-.stat-label { color: var(--muted); font-size: 0.875rem; }
-section { max-width: 1200px; margin: 3rem auto; padding: 0 1rem; }
-section h2 { font-size: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--accent); display: inline-block; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
-.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; transition: all 0.3s; }
-.card:hover { border-color: var(--accent); transform: translateY(-2px); }
-.card h3 { color: var(--accent); margin-bottom: 0.5rem; }
-.card p { color: var(--muted); font-size: 0.9rem; }
-.timeline { position: relative; padding-left: 2rem; }
-.timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--accent); }
-.timeline-item { position: relative; margin-bottom: 1.5rem; padding-left: 1rem; }
-.timeline-item::before { content: ''; position: absolute; left: -2.35rem; top: 0.5rem; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); }
-footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.875rem; border-top: 1px solid var(--border); margin-top: 4rem; }
-@media (max-width: 768px) {
-  .header-inner { flex-direction: column; }
-  .search-box { width: 100%; }
-  nav { justify-content: center; }
+@media(max-width:520px){
+  .grid.c4,.grid.c3,.grid.c2,.result-types,.stats{grid-template-columns:1fr}
+  .hero{padding:28px 20px}
 }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="header-inner">
-    <div class="logo">余</div>
-    <input type="text" class="search-box" placeholder="搜索人物、势力、名词..." id="searchInput">
-  </div>
-</header>
+<div id="scrollBar"></div>
 
-<nav>
-  <a href="#overview">世界观</a>
-  <a href="#chars">人物</a>
-  <a href="#factions">势力</a>
-  <a href="#disasters">魇灾</a>
-  <a href="#timeline">编年史</a>
-  <a href="#terms">名词解释</a>
-  <a href="#chapters">章节</a>
+<!-- ===== 导航 ===== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top"><span class="logo">余</span><div>旧日余烬WIKI<small>EMBER OF OLD</small></div></a>
+    <div class="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="q" type="text" placeholder="搜索人物、势力、魇灾、名词…" oninput="doSearch()">
+      <div id="results"></div>
+    </div>
+    <div class="nav-links">
+      <a href="#world">世界观</a>
+      <a href="#paths">四途</a>
+      <a href="#chars">人物</a>
+      <a href="#factions">势力</a>
+      <a href="#yanzai">魇灾</a>
+      <a href="#places">地点</a>
+      <a href="#items">物件</a>
+      <a href="#quiz" class="cta">🧪 梦境测试</a>
+      <a href="#chapters">章节</a>
+    </div>
+  </div>
 </nav>
 
-<div class="hero">
-  <h1>旧日余烬设定WIKI</h1>
-  <p>“我叫余烬，既是旧日的余烬，也是文明的余烬。”</p>
-  <div class="tags">
-    <span class="tag">都市异能</span>
-    <span class="tag">梦境入侵</span>
-    <span class="tag">群像</span>
-    <span class="tag">魇灾</span>
-  </div>
+<div class="wrap" id="top">
+  <aside class="side">
+    <div class="side-group">
+      <h4><span></span>入门</h4>
+      <a href="#top">🏠 首页</a>
+      <a href="#world">🌍 世界观</a>
+      <a href="#paths">🎭 四途·织窥窃驭</a>
+      <a href="#timeline">📜 编年史</a>
+    </div>
+    <div class="side-group">
+      <h4><span></span>设定</h4>
+      <a href="#chars">👤 人物 <span class="tag">20+</span></a>
+      <a href="#factions">🏛️ 势力组织</a>
+      <a href="#yanzai">🔥 魇灾图鉴</a>
+      <a href="#places">🗺️ 地点</a>
+      <a href="#items">🧰 物件</a>
+      <a href="#terms">📚 名词</a>
+    </div>
+    <div class="side-group">
+      <h4><span></span>梦境行者</h4>
+      <a href="#quiz">🧪 资质测试</a>
+      <a href="#quiz" onclick="scrollToQuiz()">🎯 测测你是哪一途</a>
+    </div>
+    <div class="side-group">
+      <h4><span></span>作品</h4>
+      <a href="#chapters">📖 章节 1-60</a>
+      <a href="#about">📝 关于</a>
+    </div>
+  </aside>
+
+  <main>
+    <!-- Hero -->
+    <div class="hero">
+      <div class="badge-new">🆕 新增 · 梦境行者资质测试（30题）</div>
+      <div class="breadcrumb">首页 / <b>旧日余烬 · 设定百科</b></div>
+      <h1>我叫余烬，既是旧日的余烬，<br>也是文明的余烬。</h1>
+      <p class="sub">《旧日余烬》—— 一月九十秋 著 · 都市异能 × 梦境入侵 × 末日群像。世界在噩梦中崩塌，幸存者在旧日的余烬里捡拾文明的残片。本百科收录世界观、四途、人物、势力、魇灾、地点、物件与时间线，并附「梦境行者资质测试」。</p>
+      <div class="hero-meta">
+        <span class="tag-pill hot">🔥 连载中</span>
+        <span class="tag-pill">已整理至 第60章</span>
+        <span class="tag-pill">无系统 · 非爽文</span>
+        <span class="tag-pill">偏群像</span>
+      </div>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="scrollToQuiz()">🧪 开始梦境测试</button>
+        <a class="btn btn-ghost" href="#world">阅读世界观 →</a>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="num" data-n="26">0</div><div class="lab">人物</div></div>
+      <div class="stat"><div class="num" data-n="9">0</div><div class="lab">势力组织</div></div>
+      <div class="stat"><div class="num" data-n="7">0</div><div class="lab">地点</div></div>
+      <div class="stat"><div class="num" data-n="60">0</div><div class="lab">章节</div></div>
+    </div>
+
+    <!-- 快速导航 -->
+    <section>
+      <div class="sec-head"><h2><span class="bar"></span>快速导航</h2></div>
+      <div class="grid c4">
+        <div class="card" onclick="location.href='#chars'"><div class="icon">👤</div><h3>人物设定</h3><p>事务局、特反、调查组、永夜门徒</p></div>
+        <div class="card" onclick="location.href='#paths'"><div class="icon">🎭</div><h3>四途体系</h3><p>织梦·窥梦·窃梦·驭梦</p></div>
+        <div class="card" onclick="location.href='#factions'"><div class="icon">🏛️</div><h3>势力组织</h3><p>梦监会、事务局、特反、研究院</p></div>
+        <div class="card" onclick="location.href='#quiz'"><div class="icon">🧪</div><h3>梦境行者测试</h3><p>30题测你是织/窥/窃/驭哪一途</p></div>
+      </div>
+    </section>
+
+    <!-- 世界观 -->
+    <section id="world">
+      <div class="entry">
+        <div class="eyebrow">WORLD SETTING</div>
+        <h1>世界观总览</h1>
+        <p class="aka">都市异能 · 梦境入侵 · 末日群像</p>
+        <div class="infobox">
+          <div class="hd">世界档案</div>
+          <table>
+            <tr><td>作品</td><td>《旧日余烬》</td></tr>
+            <tr><td>作者</td><td>一月九十秋</td></tr>
+            <tr><td>类型</td><td>都市异能 / 末日</td></tr>
+            <tr><td>核心危机</td><td>魇灾（梦境具现）</td></tr>
+            <tr><td>管理机构</td><td>梦监会 / 事务局</td></tr>
+            <tr><td>觉醒条件</td><td>梦中保持清醒</td></tr>
+          </table>
+        </div>
+        <h2>核心设定</h2>
+        <p>人的梦境有概率引发灾变，多依托噩梦具现于现实，被称为「<b>魇灾</b>」。魇灾爆发并无规律，降临时相当于把梦中世界的规则搬到了现实一隅。随着扩散，这些投影会逐渐破裂、覆盖，甚至取代现实。在魇灾破碎的一瞬间，被卷入的现实生命都会被梦境「吐出来」，回归现实。<cite>[1]</cite></p>
+        <p>梦境具现的并非只有死物，梦中的生命同样会被投影到现实，构成一具实体或直接窃取现实躯壳——这些从噩梦中「越狱」而出的生命被称为「<b>魇生物</b>」，一旦成功逃离噩梦，它就切实地变成了一个「人」。魇生物所在的区域，魇灾降临的概率远大于其他区域。<cite>[1]</cite></p>
+        <h2>梦境行者与觉醒</h2>
+        <p>得益于魇灾可在现实中具现的特性，被卷入魇灾的生命若在噩梦中获得超凡能力，会有概率通过魇灾将能力带出梦境——这就是「<b>觉醒</b>」。前提是<b>在梦中保持清醒</b>。觉醒后的人被称为「<b>梦境行者</b>」，主动进入他人梦境时不会迷失自己（这也是加入特殊反应组的首要条件）。每一位梦境行者都必须接受官方管控、登记注册。<cite>[1]</cite></p>
+        <div class="quote">「有人说，世界就是一场巨大的噩梦……」</div>
+        <h2>法律与秩序</h2>
+        <p>事务局将与生命相关的种种法律悉数搬进了梦里。一旦有公民非法操作致使他人死亡，都必须接受「梦境行法」的制裁，除非手法天衣无缝或拥有足够抗辩证据。<cite>[1]</cite></p>
+        <div class="clear"></div>
+      </div>
+    </section>
+
+    <!-- 四途 -->
+    <section id="paths">
+      <div class="sec-head">
+        <h2><span class="bar"></span>梦境行者 · 四途</h2>
+        <a href="#quiz">去做测试 →</a>
+      </div>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:14px">觉醒的梦境行者分为四大类：织梦、窥梦、窃梦、驭梦。每个梦境行者各有侧重，能力截然不同。</p>
+      <div class="grid c4">
+        <div class="path-card path-weave">
+          <div class="p-icon">🕸️</div>
+          <div class="p-key">织 · 织梦者</div>
+          <h3>编织创造</h3>
+          <p>能够编织、创造某个梦境者所想象的任何存在。造梦药剂、人格剥离手术皆与其相关。</p>
+          <div class="p-tags"><span>创造</span><span>造梦</span><span>编织</span></div>
+        </div>
+        <div class="path-card path-peek">
+          <div class="p-icon">👁️</div>
+          <div class="p-key">窥 · 窥梦者</div>
+          <h3>洞察读取</h3>
+          <p>擅长感知、读取梦境信息与他人隐秘，如梦境侧写师，从蛛丝马迹还原真相。</p>
+          <div class="p-tags"><span>感知</span><span>侧写</span><span>读取</span></div>
+        </div>
+        <div class="path-card path-steal">
+          <div class="p-icon">🎭</div>
+          <div class="p-key">窃 · 窃梦者</div>
+          <h3>修容容貌</h3>
+          <p>可窃取、伪装他人身份与容貌。夏母式的触须拟态即属此类变化之术。</p>
+          <div class="p-tags"><span>伪装</span><span>容貌</span><span>窃取</span></div>
+        </div>
+        <div class="path-card path-ride">
+          <div class="p-icon">🐍</div>
+          <div class="p-key">驭 · 驭梦者</div>
+          <h3>人格剥离</h3>
+          <p>操控、剥离人格。人格剥离手术对治疗精神分裂极为有效，但条件苛刻。</p>
+          <div class="p-tags"><span>操控</span><span>剥离</span><span>驾驭</span></div>
+        </div>
+      </div>
+      <div class="entry" style="margin-top:18px">
+        <div class="eyebrow">PERSONALITY EXTRACTION</div>
+        <h1>人格剥离手术</h1>
+        <p class="aka">对治疗精神分裂极为有效，一度被建议推广</p>
+        <p>手术条件颇为苛刻：<b>首先</b>，受术者必须是魇灾当事人；<b>其次</b>，魇灾只能是最低的 C 级，因为任何超过 C 级的魇灾都会对现实造成伤害，舍本逐末；<b>最后</b>，在魇灾降临的噩梦中，受术者<b>不能清醒</b>，否则将不再是人格剥离手术，而变成一场加速觉醒手术。<cite>[1]</cite></p>
+        <p>余烬的经历即是一例——172 小队曾计划将其副人格「红发余烬」从意识剥离具现后再击杀，以治疗他的精神分裂。</p>
+      </div>
+    </section>
+
+    <!-- 人物 -->
+    <section id="chars">
+      <div class="sec-head"><h2><span class="bar"></span>人物一览</h2><a href="#">共 <span id="charCount"></span> 位 →</a></div>
+      <div class="grid c3" id="charGrid"></div>
+    </section>
+
+    <!-- 势力 -->
+    <section id="factions">
+      <div class="sec-head"><h2><span class="bar"></span>势力与组织</h2></div>
+      <div class="grid c2" id="factionGrid"></div>
+    </section>
+
+    <!-- 魇灾 -->
+    <section id="yanzai">
+      <div class="sec-head"><h2><span class="bar"></span>魇灾图鉴</h2></div>
+      <div class="grid c2" id="yanzaiGrid"></div>
+      <div class="entry" style="margin-top:18px">
+        <div class="eyebrow">CORE MECHANIC</div>
+        <h1>破除魇灾的方法</h1>
+        <p>只有<b>干掉梦境核心</b>。梦境核心是魇灾当事人在自己梦中的投影，破碎后并不会影响当事人的命运。一般来说，大部分人在梦中的投影都是自己，但也有例外——这种例外不限于身份、性别、种族、甚至性格的改变，既是自己的臆想，又是自己的缩影。<cite>[1]</cite></p>
+        <h2>梦境纠缠</h2>
+        <p>魇灾是具有扩散性的。当魇灾降临于某段噩梦并开始向梦蔓延时，被魇灾笼罩的主梦境会不断吞噬周围的梦境，直至将噩梦融合得更加扭曲诡谲，这种现象叫「<b>梦境纠缠</b>」。招来魇灾的人被称为「当事人」，陷入纠缠的人被称为「涉事人」。<cite>[1]</cite></p>
+      </div>
+    </section>
+
+    <!-- 地点 -->
+    <section id="places">
+      <div class="sec-head"><h2><span class="bar"></span>地点</h2></div>
+      <div class="grid c3" id="placeGrid"></div>
+    </section>
+
+    <!-- 物件 -->
+    <section id="items">
+      <div class="sec-head"><h2><span class="bar"></span>物件 · 魇器</h2></div>
+      <div class="grid c2" id="itemGrid"></div>
+    </section>
+
+    <!-- 名词 -->
+    <section id="terms">
+      <div class="entry">
+        <div class="eyebrow">GLOSSARY</div>
+        <h1>名词解释</h1>
+        <div id="termsBox"></div>
+      </div>
+    </section>
+
+    <!-- 测试 -->
+    <section id="quiz">
+      <div class="quiz-hero">
+        <div style="font-size:12px;color:var(--accent2);letter-spacing:2px;font-weight:700">DREAM WALKER TEST</div>
+        <h2 style="font-size:24px;margin:6px 0 8px">🧪 梦境行者资质测试</h2>
+        <p style="color:var(--muted);font-size:14px;max-width:760px">共 <b id="totalQ">30</b> 道选择题，每题的四个选项分别对应「织·窥·窃·驭」四种资质的权重。答完后系统根据你的倾向，判定你最可能觉醒的梦境行者类型，并给出匹配角色。</p>
+        <div id="quizBox"></div>
+      </div>
+    </section>
+
+    <!-- 时间线 -->
+    <section id="timeline">
+      <div class="entry">
+        <div class="eyebrow">CHRONOLOGY</div>
+        <h1>编年史 / 时间线</h1>
+        <div class="timeline" id="timelineBox"></div>
+      </div>
+    </section>
+
+    <!-- 章节 -->
+    <section id="chapters">
+      <div class="sec-head"><h2><span class="bar"></span>章节目录（1-60）</h2><a href="#">卷宗划分 →</a></div>
+      <div class="chapter-list" id="chapterList"></div>
+    </section>
+
+    <!-- 关于 -->
+    <section id="about">
+      <div class="entry">
+        <div class="eyebrow">ABOUT</div>
+        <h1>关于本百科</h1>
+        <p>本百科为《旧日余烬》读者自发整理的设定站，用于梳理人物关系、世界观与剧情脉络，方便追更与二创参考。内容基于原著 1-60 章整理，随连载持续更新，欢迎补充指正。</p>
+        <h2>作品简介</h2>
+        <p>「有人说，世界就是一场巨大的噩梦……」起初没人在意，直到人们醒来时眼前依旧残留着梦的痕迹。灾难席卷而来，现实崩塌殆尽，到最后只剩你我，在旧日的余烬中捡拾人类文明。—— 偏群像、无系统、不无敌、非爽文。<cite>[1]</cite></p>
+      </div>
+    </section>
+  </main>
 </div>
-
-<div class="stats">
-  <div class="stat-card"><div class="stat-number" id="charCount">9</div><div class="stat-label">人物</div></div>
-  <div class="stat-card"><div class="stat-number" id="factionCount">6</div><div class="stat-label">势力</div></div>
-  <div class="stat-card"><div class="stat-number" id="disasterCount">3</div><div class="stat-label">魇灾</div></div>
-  <div class="stat-card"><div class="stat-number" id="chapterCount">60</div><div class="stat-label">章节</div></div>
-</div>
-
-<section id="overview">
-  <h2>世界观总览</h2>
-  <div class="card" style="margin-bottom:1rem;">
-    <p>在这个世界，人的梦境有概率引发灾变，这种灾难依托噩梦具现于现实，被称为<strong>魇灾</strong>。魇灾毫无规律，降临时相当于把梦中世界投影到现实，随着扩散会逐渐凝实、覆盖甚至取代现实。</p>
-    <p style="margin-top:0.5rem;">为了守护现实，<strong>梦境监测管理委员会</strong>成立，其下属的<strong>魇灾应急处理事务局</strong>专门应对魇灾。觉醒者被称为<strong>梦境行者</strong>，分为织梦、窥梦、窃梦、驭梦四途。</p>
-  </div>
-</section>
-
-<section id="chars">
-  <h2>人物</h2>
-  <div class="grid" id="charGrid"></div>
-</section>
-
-<section id="factions">
-  <h2>势力组织</h2>
-  <div class="grid" id="factionGrid"></div>
-</section>
-
-<section id="disasters">
-  <h2>魇灾图鉴</h2>
-  <div class="grid" id="disasterGrid"></div>
-</section>
-
-<section id="timeline">
-  <h2>编年史</h2>
-  <div class="timeline" id="timelineList"></div>
-</section>
-
-<section id="terms">
-  <h2>名词解释</h2>
-  <div class="grid" id="termGrid"></div>
-</section>
-
-<section id="chapters">
-  <h2>章节目录（1-60章）</h2>
-  <div class="grid" id="chapterGrid"></div>
-</section>
 
 <footer>
-  <p>旧日余烬设定WIKI | 作者：一月九十秋 | 非官方粉丝站</p>
-  <p>数据来源：小说1-60章 | 持续更新中</p>
+  <div class="links">
+    <a href="#top">首页</a><a href="#paths">四途</a><a href="#chars">人物</a>
+    <a href="#factions">势力</a><a href="#quiz">测试</a><a href="#chapters">章节</a><a href="#about">关于</a>
+  </div>
+  <div>旧日余烬设定百科 · EMBER OF OLD WIKI · 由读者搭建，仅供学习交流</div>
+  <div style="margin-top:6px;font-size:12px;color:#4f5868">UI 风格参考 zsyxwiki.top · 单文件静态站，可自由扩展</div>
 </footer>
 
+<button id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
 <script>
-// ===== 数据 =====
+/* polyfill：兼容旧浏览器 / 静态导出环境 */
+window.IntersectionObserver || (window.IntersectionObserver = class { constructor(cb){ this.cb=cb; } observe(){} unobserve(){} });
+Element.prototype.scrollIntoView || (Element.prototype.scrollIntoView = function(){});
+/* ================= 数据（基于信息册整理） ================= */
 const chars = [
-  { name: "余烬", desc: "灾后调查4组干员，哥哥余响在魇灾中牺牲。拥有红发余烬人格，可通过讥笑左轮具现。", tags: "主角/调查组" },
-  { name: "红发余烬", desc: "余烬的分裂人格，拥有骨刃和触须能力，可独立行动。", tags: "人格/战力" },
-  { name: "汤耀庭", desc: "余烬的死党，同为灾后调查4组，性格没心没肺，喜欢卷腹。", tags: "配角/调查组" },
-  { name: "夏桀", desc: "23岁，患有解离性身份认知障碍，永夜门徒预备役，青鸟街惨案凶手。", tags: "反派/凶手" },
-  { name: "梅雨", desc: "灾后调查组主任，脾气火爆，家人均为守护城市牺牲。", tags: "长辈/领导" },
-  { name: "李戟", desc: "事务局东大区负责人，外表不修边幅，实力深不可测。", tags: "领导/特反" },
-  { name: "周礼", desc: "特反172队梦境侧写师，擅长心理分析。", tags: "特反/心理" },
-  { name: "郑先", desc: "特反172队队长，菠萝头，性格跳脱。", tags: "特反/队长" },
-  { name: "吴心婷", desc: "蝎尾巷据点二把手，伪装成实习护士潜入曙光医院。", tags: "反派/永夜门徒" }
+  // 事务局·特殊反应组
+  {name:"郑先",role:"特反第172队队长",aff:"特殊反应组",icon:"🍍",g1:"#b45309",g2:"#0f172a",
+   desc:"为首的男人，乱炸菠萝头、背心短裤、耳朵拉板。能力「灾·引人」——被攻击时，伤害会收缩回转方向。"},
+  {name:"周礼",role:"172队队员 · 梦境侧写师",aff:"特殊反应组",icon:"🕶️",g1:"#0e7490",g2:"#0f172a",
+   desc:"穿白风衣的眼镜男，擅长从蛛丝马迹还原梦境真相，属窥梦一脉的感知型人才。"},
+  {name:"陆仁",role:"特反第6小队队长",aff:"特殊反应组",icon:"🗡️",g1:"#7f1d1d",g2:"#0f172a",
+   desc:"偏瘦弱、脸很英气、眼神犀利。带队处理青鸟街魇灾时全员失踪。"},
+  // 灾后调查组
+  {name:"梅雨",role:"灾后调查组主任",aff:"灾后调查组",icon:"👩‍✈️",g1:"#92400e",g2:"#0f172a",
+   desc:"头发花白、一身素装。早年带过特反干员，丈夫、儿子、儿媳均为守护城市牺牲。留守调查组照看同样失去亲人的人。"},
+  {name:"余烬",role:"灾后调查4组干员（主角）",aff:"灾后调查组",icon:"🔥",g1:"#7f1d1d",g2:"#0f172a",
+   desc:"失去父亲与哥哥余响。在墓园遇打伞女人获讥笑左轮，因悲伤分裂出红发余烬，是青鸟街二次魇灾的梦境核心。"},
+  {name:"汤耀庭",role:"余烬死党 · 调查组",aff:"灾后调查组",icon:"😎",g1:"#0e7490",g2:"#0f172a",
+   desc:"没心没肺，喜欢卷腹，保命天赋异禀。在青鸟街惨案中与余烬幸存。"},
+  // 其他
+  {name:"余响",role:"余烬之兄（已故）",aff:"事务局",icon:"🌑",g1:"#4c1d95",g2:"#0f172a",
+   desc:"事务局干员，一年前在一场魇灾中牺牲，墓在长明墓园。遗物中藏有永夜门徒的山羊玩偶。"},
+  {name:"红发余烬",role:"余烬的副人格",aff:"人格具现",icon:"🃏",g1:"#9f1239",g2:"#0f172a",
+   desc:"余烬幻想出的分裂人格，可通过讥笑左轮具现/收回，与本体共享感官，拥有骨刃与触须之力。"},
+  {name:"夏桀",role:"青鸟街惨案真凶",aff:"永夜门徒预备",icon:"🃏",g1:"#065f46",g2:"#0f172a",
+   desc:"男，23岁，患解离性身份认知障碍。人格分裂出父母人格，借魇灾屠杀干员后逃脱。"},
+  {name:"夏父（人格）",role:"夏桀分裂人格",aff:"梦境具现",icon:"💀",g1:"#7f1d1d",g2:"#0f172a",
+   desc:"退役运动员、严重暴力倾向。梦中手腕裂出骨刃战斗。"},
+  {name:"夏母（人格）",role:"夏桀分裂人格",aff:"梦境具现",icon:"🕷️",g1:"#831843",g2:"#0f172a",
+   desc:"梦中可撕裂面皮、触须拟态改变容貌，属窃梦变化之术。"},
+  {name:"打伞的女人",role:"神秘 · 梦境行者",aff:"未知",icon:"☂️",g1:"#9f1239",g2:"#0f172a",
+   desc:"红黑配色的神秘女子，一眼看穿余烬的梦中红发形象，赠其讥笑左轮，留下忠告『自由是最大的讽刺』。"},
+  {name:"迟暮",role:"事务局前局长",aff:"事务局",icon:"🧓",g1:"#44403c",g2:"#0f172a",
+   desc:"精神失常，在曙光医院46楼精神科疗养。高层曾计划用造梦剂在梦中为其实施精神手术。"},
+  {name:"迟姗姗",role:"迟暮之女",aff:"事务局高层关联",icon:"🎯",g1:"#0369a1",g2:"#0f172a",
+   desc:"行为神秘、实力强大，似看透余烬与红发余烬的秘密，参与高层博弈。"},
+  {name:"李戟",role:"事务局东大区负责人",aff:"事务局",icon:"🧔",g1:"#57534e",g2:"#0f172a",
+   desc:"外表不修边幅，实力深不可测。在曙光医院S级魇灾中搭建屏障压制扩散。"},
+  {name:"疤哥",role:"蝎尾巷据点小头目",aff:"永夜门徒",icon:"🩸",g1:"#7f1d1d",g2:"#0f172a",
+   desc:"饕餮街蝎尾巷4号试药据点的管理者之一，据点用活人测试造梦药剂。"},
+  {name:"吴心婷",role:"蝎尾巷二把手",aff:"永夜门徒",icon:"🐍",g1:"#831843",g2:"#0f172a",
+   desc:"伪装成曙光医院实习护士潜入，与夏桀发生冲突。"},
+  {name:"赵曼",role:"永夜门徒执行者",aff:"永夜门徒",icon:"⚰️",g1:"#4c1d95",g2:"#0f172a",
+   desc:"永夜门徒执行者，在曙光医院被夏桀所杀。"},
+  {name:"孙东隅",role:"公鸡会成员",aff:"反抗组织·公鸡会",icon:"🐓",g1:"#b45309",g2:"#0f172a",
+   desc:"昼狱中的反抗组织「公鸡会」成员，找到余烬邀请其参与劫狱营救创始人李桑榆。"},
+  {name:"李桑榆",role:"公鸡会创始人（狱友）",aff:"反抗组织·公鸡会",icon:"🦊",g1:"#065f46",g2:"#0f172a",
+   desc:"昼狱中被关押的反抗组织创始人，余烬在昼狱的狱友，身份与立场成谜。"},
+  {name:"庞贝",role:"永夜门徒",aff:"永夜门徒",icon:"🎭",g1:"#6d28d9",g2:"#0f172a",
+   desc:"可发动「如梦幻象」干扰战场，在曙光医院制造大规模混乱。"},
+  {name:"唐簇",role:"事务局干员",aff:"事务局",icon:"🛡️",g1:"#0f766e",g2:"#0f172a",
+   desc:"在曙光医院S级魇灾中参与搭建屏障、搜捕永夜门徒残余。"},
+  {name:"穿西服的狗",role:"神秘",aff:"未知",icon:"🐕",g1:"#57534e",g2:"#0f172a",
+   desc:"会开车、能与汤耀庭互比中指的奇异存在，与打伞女人一同出现。"},
+  {name:"执法者",role:"执法局执法人员",aff:"执法局",icon:"🚓",g1:"#0f766e",g2:"#0f172a",
+   desc:"执法局下辖的执法力量，负责梦境行者的登记、管控与梦境行法执行。"},
+  {name:"研究院学者",role:"梦境勘探开发研究院",aff:"研究院",icon:"🔬",g1:"#0369a1",g2:"#0f172a",
+   desc:"学术领域最高权威机构的研究者，依赖调查组提供的冗余数据研究梦境与魇灾。"},
+  {name:"纠察队",role:"事务局纠察",aff:"事务局",icon:"🔍",g1:"#57534e",g2:"#0f172a",
+   desc:"事务局内部的纠察部门，监督外勤与特反行动。"},
 ];
 
 const factions = [
-  { name: "魇灾应急处理事务局", desc: "专门应对魇灾的机构，下设灾后调查组、特殊反应组等。" },
-  { name: "梦境监测管理委员会", desc: "事务局的上级机构，统筹梦境相关事务。" },
-  { name: "特殊反应组（特反）", desc: "一线处理魇灾的精锐小队，如6队、172队。" },
-  { name: "灾后调查组", desc: "魇灾后的回访与调查，余烬所在部门。" },
-  { name: "永夜门徒", desc: "夜魇狂信徒，利用魇灾作恶，崇拜夜魇。" },
-  { name: "梦境勘探开发研究院", desc: "研究魇灾与梦境的学术机构。" }
+  {name:"梦境监测管理委员会（梦监会）",tag:"最高管理机构",desc:"为守住现实不被魇灾取代而设立的最高管理机构。"},
+  {name:"魇灾应急处理事务局",tag:"核心机构",desc:"梦监会最重要分支，专门应对城市各地魇灾，下设多个部门。"},
+  {name:"特殊反应组（特反）",tag:"一线作战",desc:"奔赴魇灾一线、直接处置并击破梦境核心的精锐作战力量，大多只在梦中行动。加入首要条件是成为梦境行者。"},
+  {name:"灾后调查组",tag:"余烬所属",desc:"魇灾尘埃落定后回访当事人与涉事人、记录信息。余烬、汤耀庭、梅雨所在。"},
+  {name:"梦境勘探开发研究院",tag:"学术权威",desc:"学术领域最高权威机构，研究魇灾与梦境，依赖调查组提供冗余数据。"},
+  {name:"执法局",tag:"执法",desc:"下辖执法者，负责梦境行者的登记、管控与梦境行法执行。"},
+  {name:"永夜门徒",tag:"敌对·邪教",desc:"夜魇狂信徒，利用造梦药剂人为制造魇灾，崇拜夜魇属重罪。"},
+  {name:"公鸡会",tag:"反抗组织",desc:"昼狱中的反抗组织，驻地为一栋藏在北区老城的居民楼，意图推翻伪事务局。"},
 ];
 
-const disasters = [
-  { name: "青鸟街魇灾（第一次）", desc: "夏桀设计杀害特反6队，引发C级魇灾。" },
-  { name: "青鸟街魇灾（第二次）", desc: "余烬因悲痛昏睡引发，红发余烬具现。" },
-  { name: "曙光医院事件", desc: "永夜门徒潜入医院，计划使用造梦药剂引发魇灾。" }
+const yanzai = [
+  {name:"青鸟街意识扰动事件",tag:"第1-18章",desc:"夏桀伪装孩童，分裂父母人格成怪物。特反6队失踪，调查4组几乎全灭，余烬成为二次魇灾核心。"},
+  {name:"梦境纠缠",tag:"核心机制",desc:"主梦境吞噬融合周围梦境的扭曲现象；招灾者为当事人，被卷入者为涉事人。"},
+  {name:"人格剥离手术",tag:"第11-18章",desc:"172队计划将红发余烬剥离具现后击杀，治疗余烬的精神分裂。"},
+  {name:"曙光医院风波",tag:"第28-50章",desc:"永夜门徒吴心婷潜伏医院，夏桀引发爆炸突围，爆发S级魇灾。"},
+  {name:"昼狱之疑",tag:"第51-60章",desc:"余烬被伪事务局关入昼狱，结识公鸡会与李桑榆，迟姗姗揭露高层阴谋。"},
+  {name:"如梦幻象",tag:"第40章",desc:"庞贝发动的永夜门徒干扰手段，令战场陷入大规模幻象混乱。"},
 ];
+
+const places = [
+  {name:"长明墓园",desc:"唯一一座安葬在魇灾中死去的事务局干员的墓园。常年灯火通明，哪怕白天灯也不熄。"},
+  {name:"青鸟街",desc:"魇灾频发的街区，青鸟街惨案发生地，海城核心区域之一。"},
+  {name:"特反办公区 / 联合作战会议室",desc:"魇灾应急处理事务局内，特殊反应组办公与作战会议之所。"},
+  {name:"朱雀街·久居小区",desc:"海城居民区之一。"},
+  {name:"饕餮街·蝎尾巷4号",desc:"海城东大区老城郊区，整条巷子走势如蝎尾，4号处于尾尖。永夜门徒试药据点。"},
+  {name:"昼狱",desc:"关押穷凶极恶之徒与魇生物的终极监狱，遍布眼球天眼监控。梦中具现的城市。"},
+  {name:"曙光医院",desc:"海城市东大区医疗条件最好的医院，事务局深度合作部门。46楼为精神科。"},
+  {name:"公鸡会驻地（梦境）",desc:"藏身北区老城居民楼。多年前曾爆发大规模魇灾，废墟重建后成繁华商业中心。"},
+];
+
+const items = [
+  {name:"魇灾检测器",desc:"通过检测意识波动，被动警惕魇灾的到来。"},
+  {name:"讥笑左轮 + 赤红子弹",desc:"梦境行者死后异能演变而成的魇器。装填红发余烬这颗「子弹」后，变成无限击发手枪；扳动击锤可随时召唤/收回红发余烬，即「人格发射器」。十个死亡的梦境行者也未必析出一把。"},
+  {name:"造梦系列药剂",desc:"与浮生系列相似，有概率引来魇灾。永夜门徒掌握造梦2.0更多，造梦3.0更珍贵、浓度更高（应由造梦剂稀释制成）。注射可直接引发魇灾降临。"},
+  {name:"浮生系列药品",desc:"用于觉醒。饕餮街地下试药区易获取的是浮生2.0，为最新研究成果，大幅提高核心因子浓度。"},
+  {name:"魇器（概念）",desc:"梦境行者死后觉醒异能活化、剥离躯壳演变而成的道具，即「遗留的噩梦」。极为珍贵稀有。"},
+];
+
+const terms = {
+  "魇灾":"噩梦具现于现实引发的灾变，会扩散、凝实、覆盖甚至取代现实。",
+  "魇生物":"从噩梦中越狱、被投影到现实的生命，成功逃离即变成「人」。",
+  "梦境核心":"当事人在梦中的投影，击碎即可破除魇灾，不影响本人命运。",
+  "梦境纠缠":"主梦境吞噬融合周围梦境的扭曲现象；招灾者为当事人，卷入者为涉事人。",
+  "觉醒 / 梦境行者":"在梦中保持清醒并获得超凡能力带出梦境；觉醒者称梦境行者。",
+  "织梦者":"编织创造梦境中所想象的任何存在。",
+  "窥梦者":"感知、读取梦境信息与隐秘。",
+  "窃梦者":"窃取、伪装容貌（修容）。",
+  "驭梦者":"操控、剥离人格。",
+  "骨刃":"觉醒者（如夏父）异化出的骨制利刃。",
+  "触须拟态":"夏母式撕裂面皮后以触须改变容貌，属窃梦变化。",
+  "永夜门徒":"崇拜夜魇的邪教，夜魇崇拜属重罪。",
+  "长明墓园":"安葬魇灾中牺牲干员、常年不熄灯的墓园。",
+  "C级魇灾":"最低等级的魇灾，是人格剥离手术的硬性上限条件。",
+};
 
 const timeline = [
-  { time: "一年前", event: "余烬的哥哥余响在魇灾中牺牲。" },
-  { time: "昨天（故事开始）", event: "青鸟街发生家庭纠纷，实为魇灾前兆。" },
-  { time: "黎明前", event: "特反6队进入梦境，全员失踪。" },
-  { time: "第二天早", event: "余烬带队调查，遭遇青鸟街惨案，4组几乎全灭。" },
-  { time: "当晚", event: "余烬昏睡，魇灾再次降临，红发余烬具现。" },
-  { time: "后续", event: "余烬开始追查夏桀，潜入饕餮街，发现医院阴谋。" }
+  {t:"旧日之前",text:"世界正常运转，噩梦仅为梦，梦境监测体系尚未成形。"},
+  {t:"梦的痕迹显现",text:"人们醒来时眼前残留梦的痕迹，灾难开始席卷，现实崩塌。"},
+  {t:"梦监会 / 事务局成立",text:"为守住现实，梦境监测管理委员会及下属事务局相继建立。"},
+  {t:"余烬家变",text:"余烬先后失去身为干员的父亲与哥哥余响，因悲伤幻想出红发余烬。"},
+  {t:"青鸟街事件（1-18章）",text:"夏桀借魇灾屠杀干员逃脱，余烬成为二次魇灾核心，172队介入。"},
+  {t:"饕餮街据点（19-27章）",text:"红发余烬潜入蝎尾巷试药据点，发现永夜门徒计划袭击曙光医院。"},
+  {t:"曙光医院风波（28-50章）",text:"吴心婷潜伏、夏桀引发爆炸突围，S级魇灾爆发。"},
+  {t:"昼狱之疑（51-60章）",text:"余烬被关入昼狱，结识公鸡会与李桑榆，迟姗姗揭露高层以造梦剂人为制造魇灾的阴谋。"},
 ];
 
-const terms = [
-  { name: "魇灾", desc: "梦境具现引发的灾难，分为C级等不同等级。" },
-  { name: "梦境行者", desc: "在梦中觉醒并获得超凡能力的人。" },
-  { name: "织梦/窥梦/窃梦/驭梦", desc: "梦境行者的四种分类途径。" },
-  { name: "永夜门徒", desc: "崇拜夜魇的极端组织。" },
-  { name: "造梦药剂", desc: "地下科学研制的药剂，可人为提高魇灾概率。" },
-  { name: "讥笑左轮", desc: "神秘女人赠予余烬的魇器，可收容并具现人格。" }
+const chapters = [
+  ...Array.from({length:10},(_,i)=>({n:i+1,vol:"第一卷 · 青鸟街"})),
+  ...Array.from({length:8},(_,i)=>({n:i+11,vol:"第一卷 · 特反介入"})),
+  ...Array.from({length:17},(_,i)=>({n:i+19,vol:"第二卷 · 饕餮街"})),
+  ...Array.from({length:13},(_,i)=>({n:i+36,vol:"第三卷 · 曙光医院"})),
+  ...Array.from({length:12},(_,i)=>({n:i+49,vol:"第四卷 · 昼狱"})),
 ];
 
-const chapters = [];
-for (let i = 1; i <= 60; i++) {
-  chapters.push({ name: `第${i}章`, desc: `点击查看详情（待补充）` });
-}
+/* ============ 渲染 ============ */
+const cg = document.getElementById('charGrid');
+chars.forEach(c=>{
+  cg.innerHTML += `<div class="char"><div class="thumb" style="--g1:${c.g1};--g2:${c.g2}">${c.icon}</div>
+    <div class="info"><h3>${c.name}</h3><div class="role">${c.role}</div><div class="aff">${c.aff}</div><p>${c.desc}</p></div></div>`;
+});
+document.getElementById('charCount').textContent = chars.length;
 
-// ===== 渲染函数 =====
-function renderChars(filter = "") {
-  const grid = document.getElementById("charGrid");
-  grid.innerHTML = "";
-  chars.filter(c => c.name.includes(filter) || c.desc.includes(filter)).forEach(c => {
-    grid.innerHTML += `<div class="card"><h3>${c.name}</h3><p>${c.desc}</p><small style="color:var(--accent)">${c.tags}</small></div>`;
-  });
-}
+const fg = document.getElementById('factionGrid');
+factions.forEach(f=>{ fg.innerHTML += `<div class="card"><span class="top">${f.tag}</span><div class="icon">🏛️</div><h3>${f.name}</h3><p>${f.desc}</p></div>`; });
 
-function renderFactions(filter = "") {
-  const grid = document.getElementById("factionGrid");
-  grid.innerHTML = "";
-  factions.filter(f => f.name.includes(filter) || f.desc.includes(filter)).forEach(f => {
-    grid.innerHTML += `<div class="card"><h3>${f.name}</h3><p>${f.desc}</p></div>`;
-  });
-}
+const yg = document.getElementById('yanzaiGrid');
+yanzai.forEach(y=>{ yg.innerHTML += `<div class="card"><span class="top">${y.tag}</span><div class="icon">🔥</div><h3>${y.name}</h3><p>${y.desc}</p></div>`; });
 
-function renderDisasters(filter = "") {
-  const grid = document.getElementById("disasterGrid");
-  grid.innerHTML = "";
-  disasters.filter(d => d.name.includes(filter) || d.desc.includes(filter)).forEach(d => {
-    grid.innerHTML += `<div class="card"><h3>${d.name}</h3><p>${d.desc}</p></div>`;
-  });
-}
+const pg = document.getElementById('placeGrid');
+places.forEach(p=>{ pg.innerHTML += `<div class="card"><div class="icon">📍</div><h3>${p.name}</h3><p>${p.desc}</p></div>`; });
 
-function renderTimeline() {
-  const list = document.getElementById("timelineList");
-  list.innerHTML = "";
-  timeline.forEach(t => {
-    list.innerHTML += `<div class="timeline-item"><strong>${t.time}</strong>：${t.event}</div>`;
-  });
-}
+const ig = document.getElementById('itemGrid');
+items.forEach(it=>{ ig.innerHTML += `<div class="card"><div class="icon">🧰</div><h3>${it.name}</h3><p>${it.desc}</p></div>`; });
 
-function renderTerms(filter = "") {
-  const grid = document.getElementById("termGrid");
-  grid.innerHTML = "";
-  terms.filter(t => t.name.includes(filter) || t.desc.includes(filter)).forEach(t => {
-    grid.innerHTML += `<div class="card"><h3>${t.name}</h3><p>${t.desc}</p></div>`;
-  });
-}
+const tl = document.getElementById('timelineBox');
+timeline.forEach(item=>{ tl.innerHTML += `<div class="tl-item"><div class="t">${item.t}</div><p>${item.text}</p></div>`; });
 
-function renderChapters(filter = "") {
-  const grid = document.getElementById("chapterGrid");
-  grid.innerHTML = "";
-  chapters.filter(c => c.name.includes(filter)).forEach(c => {
-    grid.innerHTML += `<div class="card"><h3>${c.name}</h3><p>${c.desc}</p></div>`;
-  });
-}
+const tb = document.getElementById('termsBox');
+tb.innerHTML = "<div class='grid c2'>" + Object.entries(terms).map(([k,v])=>
+  `<div class="card"><h3 style="color:var(--accent2)">${k}</h3><p>${v}</p></div>`).join("") + "</div>";
 
-// ===== 搜索 =====
-document.getElementById("searchInput").addEventListener("input", (e) => {
-  const val = e.target.value;
-  renderChars(val);
-  renderFactions(val);
-  renderDisasters(val);
-  renderTerms(val);
-  renderChapters(val);
+const cl = document.getElementById('chapterList');
+chapters.forEach(c=>{
+  cl.innerHTML += `<div class="row"><div class="no">${String(c.n).padStart(2,'0')}</div><div class="title">第${c.n}章</div><div class="vol">${c.vol}</div></div>`;
 });
 
-// ===== 初始化 =====
-renderChars();
-renderFactions();
-renderDisasters();
-renderTimeline();
-renderTerms();
-renderChapters();
-</script>
+/* ============ 搜索 ============ */
+const allData = [
+  ...chars.map(c=>({title:c.name,type:"人物",cat:"chars",desc:c.desc})),
+  ...factions.map(f=>({title:f.name,type:"势力",cat:"factions",desc:f.desc})),
+  ...yanzai.map(y=>({title:y.name,type:"魇灾",cat:"yanzai",desc:y.desc})),
+  ...places.map(p=>({title:p.name,type:"地点",cat:"places",desc:p.desc})),
+  ...items.map(i=>({title:i.name,type:"物件",cat:"items",desc:i.desc})),
+  ...Object.entries(terms).map(([k,v])=>({title:k,type:"名词",cat:"terms",desc:v})),
+  ...timeline.map(t=>({title:t.t,type:"时间线",cat:"timeline",desc:t.text})),
+];
+function doSearch(){
+  const q = document.getElementById('q').value.trim().toLowerCase();
+  const box = document.getElementById('results');
+  if(!q){box.classList.remove('show');return;}
+  const hits = allData.filter(x=>x.title.toLowerCase().includes(q)||x.desc.includes(q)).slice(0,8);
+  box.innerHTML = hits.length? hits.map(h=>`<a href="#${h.cat}"><b>${h.title}</b> <small>${h.type} · ${h.desc.slice(0,48)}…</small></a>`).join("")
+    : `<a>无匹配结果</a>`;
+  box.classList.add('show');
+}
+document.addEventListener('click',e=>{if(!e.target.closest('.search'))document.getElementById('results').classList.remove('show');});
 
+/* ============ 梦境行者测试 ============ */
+/* 每题4个选项，分别对应 w(织) p(窥) s(窃) r(驭) 的权重 */
+const questions = [
+  {q:"你在梦中意识到自己在做梦，第一反应是——",o:["开始随心所欲地造物、改写世界规则","仔细观察周围，寻找这场梦的线索与破绽","变成另一个人的模样，去试探他人反应","强行把梦里的恐惧与记忆剥离出去"],w:"wprs"},
+  {q:"面对一段痛苦的记忆，你会——",o:["把它编织成一段全新的美好故事","反复回放，试图理解自己真正的恐惧","假装成另一个人，把痛苦隔离出去","把它从意识里彻底撕下来丢掉"],w:"wpsr"},
+  {q:"朋友说了一个谎，你更可能——",o:["顺着他的谎编出一个更精彩的世界","从微表情里读出他隐瞒的真相","不动声色地冒充他人去验证","直接戳穿并拆解他的心理防御"],w:"wpsr"},
+  {q:"给你一个「能力」，你最想要——",o:["凭空创造出任何我想要的东西","看透任何人内心的秘密","随意改变自己的容貌与身份","掌控并重塑他人的人格"],w:"wpsr"},
+  {q:"在团队里，你的角色通常是——",o:["脑洞担当，负责构建方案","观察者，负责分析与侧写","伪装者，负责潜入与扮演","指挥者，负责拆解与调度"],w:"wpsr"},
+  {q:"你如何看待「谎言」？",o:["是创造新世界的原材料","是能读懂人心的密码","是最好用的伪装外衣","是必须被剥离的虚伪外壳"],w:"wpsr"},
+  {q:"走进一间陌生的房间，你先注意——",o:["房间可以被改造成什么样","房间里有哪些不对劲的细节","哪个角落最适合隐藏身份","房间里的人谁最容易被影响"],w:"wpsr"},
+  {q:"如果写一本小说，你会写——",o:["宏大奇幻的世界观与造物","细腻的心理悬疑推理","主角不断变换身份的谍战","人格分裂与意识博弈"],w:"wpsr"},
+  {q:"面对敌人，你的招式风格——",o:["凭空具现出千奇百怪的武器","预判对手每一步行动","伪装成盟友再背后下手","直接改写对手的认知"],w:"wpsr"},
+  {q:"「身份」对你而言是——",o:["可以任意书写的角色卡","需要认真解读的谜题","随时可换的面具","可以拆解重组的零件"],w:"wpsr"},
+  {q:"做噩梦时，你最常——",o:["在梦里搭建新的避难所","强迫自己清醒并记录细节","梦游成别人的样子逃避","把梦里的怪物人格化再驱逐"],w:"wpsr"},
+  {q:"你最羡慕哪种人？",o:["想象力天马行空的创作者","洞察一切的观察者","千人千面的演员","能把复杂局面拆解的掌控者"],w:"wpsr"},
+  {q:"如果把人生比作梦，你希望——",o:["亲手编织每一个细节","看清每一层隐喻","随时换一种活法","把痛苦的部分剪掉重来"],w:"wpsr"},
+  {q:"你会被哪种画面吸引？",o:["绚烂奇幻的造物景象","光影中隐藏的细微线索","一张可以随意更换的面具","破碎又重组的镜像人格"],w:"wpsr"},
+  {q:"遇到困境，你本能——",o:["创造一个不存在的出口","分析困境的规律与破绽","换个身份绕开困境","把困境拆解成可管理的碎片"],w:"wpsr"},
+  {q:"你认为最强的力量是——",o:["无中生有的创造力","洞若观火的洞察力","来去无踪的伪装力","改写规则的掌控力"],w:"wpsr"},
+  {q:"如果必须潜入敌营——",o:["制造一个完美的假象场景","先摸清每个人的底细","直接顶替某个人的身份","混入后从内部瓦解其意志"],w:"wpsr"},
+  {q:"别人眼中的你——",o:["脑子里总有新点子","安静但什么都看在眼里","捉摸不透，忽近忽远","果断利落，一针见血"],w:"wpsr"},
+  {q:"你更擅长——",o:["把0变成1","把复杂变清晰","把真变假","把多变成一"],w:"wpsr"},
+  {q:"对于「真实」，你的态度——",o:["真实可以被创造","真实需要被看见","真实可以被伪装","真实可以被重塑"],w:"wpsr"},
+  {q:"最喜欢的梦境类型——",o:["天马行空的奇幻世界","细节丰富的解谜迷宫","身份不断切换的谍梦","意识碎片不断重组的梦"],w:"wpsr"},
+  {q:"你如何处理负面情绪？",o:["把它写成故事或画出来","独自反复咀嚼、分析","转移注意力，假装没事","主动切断与它的联系"],w:"wpsr"},
+  {q:"如果觉醒超能力，你希望来源——",o:["源于自己的想象力","源于对他人的理解","源于身份的变换","源于意志的掌控"],w:"wpsr"},
+  {q:"面对混乱局面，你——",o:["直接构建新秩序","先站在一旁看清全貌","混入其中伪装成一份子","抓住关键人物逐个击破"],w:"wpsr"},
+  {q:"你更认同哪句话？",o:["「世界是我想象的样子」","「真相只有一个」","「人生如戏，全靠演技」","「我即是我自己的主宰」"],w:"wpsr"},
+  {q:"选择一种武器意象——",o:["可随意变形的造物","能透视本质的眼睛","无面者的面具","剥离灵魂的手术刀"],w:"wpsr"},
+  {q:"在梦里你最常做——",o:["造房子、造城市","飞到高处俯瞰一切","变成别人生活一天","与另一个「自己」对话"],w:"wpsr"},
+  {q:"你的弱点更接近——",o:["想象力脱离现实","过度分析而犹豫","面具太多忘了自己","剥离过度变得冷漠"],w:"wpsr"},
+  {q:"如果加入特殊反应组——",o:["负责搭建梦境战场","负责侧写与侦查","负责潜入与伪装","负责攻坚与意识作战"],w:"wpsr"},
+  {q:"最后一题：闭上眼，你看到的——",o:["一片由我塑造的光","无数细密的线索","一张陌生的脸","一个正在碎裂的我"],w:"wpsr"},
+];
+
+const PATHS = {
+  w:{key:"w",name:"织梦者",emoji:"🕸️",color:"var(--weave)",
+     desc:"你是天生的「织梦者」——想象力是你的超能力。你倾向于无中生有、编织创造，能把脑中的构想具现为现实。在梦监会，你将胜任搭建梦境、创造战术环境的工作。",
+     match:"匹配角色：打伞的女人（高维织梦）、造梦药剂研究者",
+     strengths:"✅ 创造 · 想象 · 构建场景 · 战术环境设计"},
+  p:{key:"p",name:"窥梦者",emoji:"👁️",color:"var(--peek)",
+     desc:"你是敏锐的「窥梦者」——洞察力是你的超能力。你擅长感知、读取梦境信息与他人的隐秘，像梦境侧写师一样从蛛丝马迹还原真相。",
+     match:"匹配角色：周礼（172队梦境侧写师）",
+     strengths:"✅ 感知 · 侧写 · 推理 · 侦查预警"},
+  s:{key:"s",name:"窃梦者",emoji:"🎭",color:"var(--accent4)",
+     desc:"你是灵动的「窃梦者」——伪装是你的超能力。你擅长修容容貌、窃取身份，能来去无踪地潜入任何环境，像夏母的触须拟态一样变换自如。",
+     match:"匹配角色：夏母人格（触须拟态）、吴心婷（伪装潜入）",
+     strengths:"✅ 伪装 · 潜入 · 身份变换 · 情报获取"},
+  r:{key:"r",name:"驭梦者",emoji:"🐍",color:"var(--accent2)",
+     desc:"你是冷硬的「驭梦者」——掌控力是你的超能力。你擅长操控、剥离人格，能拆解复杂局面、改写他人认知，是团队攻坚与意识作战的核心。",
+     match:"匹配角色：红发余烬（人格具现）、迟姗姗（高层博弈）",
+     strengths:"✅ 掌控 · 剥离 · 人格作战 · 攻坚突破"},
+};
+
+let cur = 0, scores = {w:0,p:0,s:0,r:0};
+const quizBox = document.getElementById('quizBox');
+const total = questions.length;
+document.getElementById('totalQ').textContent = total;
+
+function renderQuestion(){
+  const d = questions[cur];
+  const pct = Math.round((cur/total)*100);
+  quizBox.innerHTML = `
+    <div class="quiz-progress">
+      <div class="bar-wrap"><div class="bar" style="width:${pct}%"></div></div>
+      <div class="num">${cur} / ${total}</div>
+    </div>
+    <div class="q-text">${cur+1}. ${d.q}</div>
+    <div class="q-sub">请凭第一直觉选择，四个选项分别对应「织·窥·窃·驭」的资质倾向。</div>
+    <div class="q-options">
+      ${d.o.map((t,i)=>`<button class="q-opt" onclick="pick(${i})">
+        <span class="letter">${"ABCD"[i]}</span>
+        <span class="o-text">${t}<span class="o-w">→ ${"织·窥·窃·驭"[i]}</span></span>
+      </button>`).join("")}
+    </div>
+  `;
+  quizBox.scrollIntoView && quizBox.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function pick(i){
+  const map = {0:"w",1:"p",2:"s",3:"r"};
+  scores[map[i]] += 1;
+  cur++;
+  if(cur >= total){ renderResult(); return; }
+  renderQuestion();
+}
+
+function maxKey(){
+  return Object.keys(scores).reduce((a,b)=> scores[a]>=scores[b]?a:b);
+}
+
+function renderResult(){
+  const mk = maxKey();
+  const main = PATHS[mk];
+  const sorted = Object.keys(scores).sort((a,b)=>scores[b]-scores[a]);
+  const sec = PATHS[sorted[1]];
+  const totalScore = total;
+  quizBox.innerHTML = `
+    <div class="result-types">
+      ${["w","p","s","r"].map(k=>{
+        const p = Math.round(scores[k]/totalScore*100);
+        return `<div class="card q-opt result-type" style="cursor:default">
+          <div class="p-icon">${PATHS[k].emoji}</div>
+          <div class="p-key" style="background:transparent;color:inherit">${PATHS[k].name}</div>
+          <div class="pct" style="color:${PATHS[k].color}">${scores[k]}票 · ${p}%</div>
+          <div class="bar-wrap"><div class="bar" style="width:${p}%;background:${PATHS[k].color}" data-p="${p}"></div></div>
+        </div>`;
+      }).join("")}
+    </div>
+    <div class="result-main">
+      <div class="big">${main.emoji}</div>
+      <h3 style="background:linear-gradient(90deg,${main.color},var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent">你是「${main.name}」</h3>
+      <div class="sub">${main.name} · ${main.emoji} · 梦境行者资质匹配度最高</div>
+    </div>
+    <div class="result-desc">
+      <h4>${main.emoji} ${main.name} · 资质解读</h4>
+      <p style="color:#cdd5e3;margin-top:8px">${main.desc}</p>
+      <p style="margin-top:10px"><b style="color:${sec.color}">次要倾向：${sec.name}</b>（${scores[sec.key]}票）—— 你也有 ${sec.name} 的潜力，可作为辅助发展。</p>
+      <p style="margin-top:10px;color:var(--accent3)">${main.match}</p>
+      <p style="margin-top:8px;color:var(--muted);font-size:13px">${main.strengths}</p>
+    </div>
+    <div class="result-actions">
+      <button class="btn btn-primary" onclick="restartQuiz()">🔄 再测一次</button>
+      <button class="btn btn-ghost" onclick="scrollToQuiz();location.href='#chars'">查看匹配角色 →</button>
+    </div>
+  `;
+  // 动画条
+  setTimeout(()=>{ document.querySelectorAll('.result-type .bar').forEach(b=>{ b.style.width = b.dataset.p + '%'; }); }, 80);
+  quizBox.scrollIntoView && quizBox.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function restartQuiz(){ cur = 0; scores = {w:0,p:0,s:0,r:0}; renderQuestion(); }
+
+// 初始第一题
+renderQuestion();
+
+function scrollToQuiz(){ document.getElementById('quiz').scrollIntoView({behavior:"smooth",block:"start"}); }
+
+/* ============ 数字动画 ============ */
+const nums = document.querySelectorAll('.stat .num');
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting){
+      const el = en.target, target = +el.dataset.n, dur=1200, st=performance.now();
+      function step(now){const p=Math.min((now-st)/dur,1);el.textContent=Math.floor(p*target);if(p<1)requestAnimationFrame(step);}
+      requestAnimationFrame(step); io.unobserve(el);
+    }
+  });
+},{threshold:.5});
+nums.forEach(n=>io.observe(n));
+
+/* 滚动进度 + 回到顶部 */
+const bar = document.getElementById('scrollBar');
+const toTop = document.getElementById('toTop');
+window.addEventListener('scroll',()=>{
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  bar.style.width = (h>0 ? (window.scrollY/h*100) : 0) + '%';
+  toTop.classList.toggle('show', window.scrollY > 400);
+});
+
+/* 导航高亮 */
+const sections = Array.from(document.querySelectorAll('main section[id], main > div[id]'));
+const navLinks = document.querySelectorAll('.nav-links a:not(.cta)');
+window.addEventListener('scroll',()=>{
+  let curSec='';
+  sections.forEach(s=>{ if(window.scrollY >= s.offsetTop-130) curSec=s.id; });
+  navLinks.forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+curSec));
+});
+</script>
 </body>
 </html>
