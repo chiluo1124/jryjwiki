@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>梦境行者测试 | 旧日余烬 WIKI</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html"><span class="logo">余</span><div>旧日余烬WIKI<small>EMBER OF OLD</small></div></a>
+  <div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    <input id="q" type="text" placeholder="搜索…" oninput="doSearch()"></div>
+  <div class="nav-links" id="navLinks"></div></div></nav>
+
+<main class="quiz-wrap">
+  <!-- 开始页 -->
+  <div id="quizStart" class="quiz-start">
+    <div class="big">🧪</div>
+    <h1>梦境行者资质测试</h1>
+    <p>你的梦境资质，属于「织 · 窥 · 窃 · 驭」哪一途？<br>回答 30 道选择题，系统根据你的倾向判定你的梦境行者类型，并匹配原著角色。</p>
+    <div class="rules">
+      <p><b>· 共 30 题</b>，每题 4 个选项，分别对应「织·窥·窃·驭」的资质权重。</p>
+      <p><b>· 凭第一直觉</b>选择，无需过度思考。</p>
+      <p><b>· 答完即时出结果</b>，含四途占比与匹配角色，可无限次重测。</p>
+    </div>
+    <button class="btn btn-primary" onclick="startQuiz()">开始测试 →</button>
+  </div>
+
+  <!-- 答题卡 -->
+  <div id="quizCard" class="quiz-card" style="display:none">
+    <div class="quiz-progress">
+      <div class="bar-wrap"><div class="bar" id="bar"></div></div>
+      <div class="num" id="num">0 / 30</div>
+    </div>
+    <div class="q-text" id="qText"></div>
+    <div class="q-sub">请凭第一直觉选择，四个选项分别对应「织·窥·窃·驭」的资质倾向。</div>
+    <div class="q-options" id="qOpts"></div>
+  </div>
+
+  <!-- 结果 -->
+  <div id="quizResult"></div>
+</main>
+
+<footer><div class="links">
+  <a href="index.html">首页</a><a href="world.html">世界观</a><a href="paths.html">四途</a>
+  <a href="chars.html">人物</a><a href="factions.html">势力</a><a href="yanzai.html">魇灾</a>
+  <a href="places.html">地点</a><a href="items.html">物件</a><a href="quiz.html">测试</a>
+  <a href="chapters.html">章节</a><a href="about.html">关于</a>
+</div>旧日余烬设定百科 · 由读者搭建，仅供学习交流</footer>
+<button id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script src="assets/data.js"></script>
+<script src="assets/common.js"></script>
+<script>
+let cur = 0, scores = {w:0,p:0,s:0,r:0};
+
+function startQuiz(){
+  cur = 0; scores = {w:0,p:0,s:0,r:0};
+  document.getElementById('quizStart').style.display = 'none';
+  document.getElementById('quizResult').innerHTML = '';
+  document.getElementById('quizCard').style.display = 'block';
+  renderQ();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function renderQ(){
+  const d = questions[cur];
+  document.getElementById('bar').style.width = (cur/questions.length*100) + '%';
+  document.getElementById('num').textContent = (cur+1) + ' / ' + questions.length;
+  document.getElementById('qText').textContent = (cur+1) + '. ' + d.q;
+  const opts = document.getElementById('qOpts');
+  opts.innerHTML = d.o.map((t,i)=>`<button class="q-opt" onclick="pick(${i})">
+    <span class="letter">${"ABCD"[i]}</span>
+    <span class="o-text">${t}<span class="o-w">→ ${"织·窥·窃·驭"[i]}</span></span>
+  </button>`).join("");
+}
+
+function pick(i){
+  const map = {0:"w",1:"p",2:"s",3:"r"};
+  scores[map[i]] += 1;
+  cur++;
+  if(cur >= questions.length){ renderResult(); return; }
+  renderQ();
+}
+
+function maxKey(){ return Object.keys(scores).reduce((a,b)=> scores[a]>=scores[b]?a:b); }
+
+function renderResult(){
+  document.getElementById('quizCard').style.display = 'none';
+  const mk = maxKey();
+  const main = PATH_RESULTS[mk];
+  const sorted = Object.keys(scores).sort((a,b)=>scores[b]-scores[a]);
+  const sec = PATH_RESULTS[sorted[1]];
+  const totalScore = questions.length;
+  const box = document.getElementById('quizResult');
+  box.innerHTML = `
+    <div class="quiz-card">
+      <div class="result-types">
+        ${["w","p","s","r"].map(k=>{
+          const p = Math.round(scores[k]/totalScore*100);
+          return `<div class="card result-type" style="cursor:default">
+            <div class="p-icon">${PATH_RESULTS[k].emoji}</div>
+            <div class="p-key" style="background:transparent;color:inherit">${PATH_RESULTS[k].name}</div>
+            <div class="pct" style="color:${PATH_RESULTS[k].color}">${scores[k]}票 · ${p}%</div>
+            <div class="bar-wrap"><div class="bar" data-p="${p}" style="background:${PATH_RESULTS[k].color}"></div></div>
+          </div>`;
+        }).join("")}
+      </div>
+      <div class="result-main">
+        <div class="big">${main.emoji}</div>
+        <h3 style="background:linear-gradient(90deg,${main.color},var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent">你是「${main.name}」</h3>
+        <div class="sub">${main.name} · 梦境行者资质匹配度最高</div>
+      </div>
+      <div class="result-desc">
+        <h4>${main.emoji} ${main.name} · 资质解读</h4>
+        <p style="color:#cdd5e3;margin-top:8px">${main.desc}</p>
+        <p style="margin-top:10px"><b style="color:${sec.color}">次要倾向：${sec.name}</b>（${scores[sec.key]}票）—— 你也有 ${sec.name} 的潜力，可作为辅助发展。</p>
+        <p style="margin-top:10px;color:var(--accent3)">${main.match}</p>
+        <p style="margin-top:8px;color:var(--muted);font-size:13px">${main.strengths}</p>
+      </div>
+      <div class="result-actions">
+        <button class="btn btn-primary" onclick="startQuiz()">🔄 再测一次</button>
+        <a class="btn btn-ghost" href="chars.html">查看匹配角色 →</a>
+      </div>
+    </div>`;
+  setTimeout(()=>{ box.querySelectorAll('.result-type .bar').forEach(b=>{ b.style.width = b.dataset.p + '%'; }); }, 80);
+}
+
+// 页面初始化（导航高亮）
+function initPage(){}
+</script></body></html>

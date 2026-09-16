@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>势力 | 旧日余烬 WIKI</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html"><span class="logo">余</span><div>旧日余烬WIKI<small>EMBER OF OLD</small></div></a>
+  <div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    <input id="q" type="text" placeholder="搜索…" oninput="doSearch()"></div>
+  <div class="nav-links" id="navLinks"></div>
+</div></nav>
+
+<main>
+  <div class="page-head"><div class="eyebrow">FACTIONS</div><h1>势力与组织</h1><p>梦监会 · 事务局 · 特反 · 执法局 · 研究院 · 永夜门徒 · 公鸡会</p></div>
+  <div class="list-toolbar" id="chips"></div>
+  <div class="grid c2" id="factionGrid"></div>
+</main>
+
+<footer><div class="links">
+  <a href="index.html">首页</a><a href="world.html">世界观</a><a href="paths.html">四途</a>
+  <a href="chars.html">人物</a><a href="factions.html">势力</a><a href="yanzai.html">魇灾</a>
+  <a href="places.html">地点</a><a href="items.html">物件</a><a href="quiz.html">测试</a>
+  <a href="chapters.html">章节</a><a href="about.html">关于</a>
+</div>旧日余烬设定百科 · 由读者搭建，仅供学习交流</footer>
+<button id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<script src="assets/data.js"></script>
+<script src="assets/common.js"></script>
+<script>
+function renderFactions(aff){
+  const grid = document.getElementById('factionGrid');
+  const list = aff? factions.filter(f=>f.tag===aff || f.members&&f.members.includes(aff)) : factions;
+  grid.innerHTML = factions.filter(f=> !aff || f.name.includes(aff) || (f.members||[]).some(m=>m.includes(aff)))
+    .map(f=>{
+      const mem = (f.members||[]).filter(m=> chars.some(c=>c.name===m)).map(m=>`<a href="chars.html" style="color:var(--accent3)">${m}</a>`).join("、");
+      return `<div class="card"><span class="top">${f.tag}</span><div class="icon">🏛️</div><h3>${f.name}</h3><p>${f.desc}</p>${mem?`<p style="margin-top:8px;font-size:12px;color:var(--accent3)">成员：${mem}</p>`:''}</div>`;
+    }).join("");
+}
+function initPage(){
+  renderFactions();
+  const tags = ["全部", ...new Set(factions.map(f=>f.tag))];
+  renderChips('chips', tags, renderFactions);
+  observeNums();
+}
+</script>
+</body></html>

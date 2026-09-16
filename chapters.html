@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>章节 | 旧日余烬 WIKI</title><link rel="stylesheet" href="assets/style.css"></head><body>
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html"><span class="logo">余</span><div>旧日余烬WIKI<small>EMBER OF OLD</small></div></a>
+  <div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    <input id="q" type="text" placeholder="搜索…" oninput="doSearch()"></div>
+  <div class="nav-links" id="navLinks"></div></div></nav>
+<main>
+<div class="page-head"><div class="eyebrow">CHAPTERS</div><h1>章节目录</h1><p>《旧日余烬》第 1-60 章 · 分卷：青鸟街 / 特反介入 / 饕餮街 / 曙光医院 / 昼狱</p></div>
+<div class="entry" style="padding:20px 24px;margin-bottom:18px">
+  <h2 style="border:none;padding:0;margin:0 0 12px">四卷脉络</h2>
+  <div class="grid c2">
+    <div class="card"><span class="top">第1-18章</span><div class="icon">🌑</div><h3>第一卷 · 青鸟街</h3><p>夏桀伪装孩童引发魇灾，特反172介入，揭露青鸟街惨案真相，余烬成为二次魇灾核心。</p></div>
+    <div class="card"><span class="top">第19-35章</span><div class="icon">🐍</div><h3>第二卷 · 饕餮街</h3><p>讥笑左轮带入现实，红发余烬潜入蝎尾巷试药据点，永夜门徒计划袭击曙光医院。</p></div>
+    <div class="card"><span class="top">第36-48章</span><div class="icon">🏥</div><h3>第三卷 · 曙光医院</h3><p>吴心婷潜伏，夏桀引发爆炸突围，S级魇灾爆发，余烬与红发余烬分头行动。</p></div>
+    <div class="card"><span class="top">第49-60章</span><div class="icon">🐓</div><h3>第四卷 · 昼狱</h3><p>余烬被关入昼狱，结识公鸡会与李桑榆，迟姗姗揭露高层以造梦剂人为制造魇灾的阴谋。</p></div>
+  </div>
+</div>
+<div class="chapter-list" id="chapterList"></div>
+</main>
+<footer><div class="links"><a href="index.html">首页</a><a href="world.html">世界观</a><a href="paths.html">四途</a><a href="chars.html">人物</a><a href="factions.html">势力</a><a href="yanzai.html">魇灾</a><a href="places.html">地点</a><a href="items.html">物件</a><a href="quiz.html">测试</a><a href="chapters.html">章节</a><a href="about.html">关于</a></div>旧日余烬设定百科 · 由读者搭建，仅供学习交流</footer>
+<button id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<script src="assets/data.js"></script><script src="assets/common.js"></script>
+<script>
+function initPage(){
+  const vols = {};
+  chapters.forEach(c=>{ (vols[c.vol]=vols[c.vol]||[]).push(c); });
+  const box = document.getElementById('chapterList');
+  box.innerHTML = Object.entries(vols).map(([vol,list])=>`
+    <div class="vol-group">${vol}</div>
+    ${list.map(c=>`<div class="row"><div class="no">${String(c.n).padStart(2,'0')}</div><div class="title">第${c.n}章</div><div class="vol">${vol}</div></div>`).join("")}
+  `).join("");
+  observeNums();
+}
+</script></body></html>

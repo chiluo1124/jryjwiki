@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>世界观 | 旧日余烬 WIKI</title><link rel="stylesheet" href="assets/style.css"></head><body>
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html"><span class="logo">余</span><div>旧日余烬WIKI<small>EMBER OF OLD</small></div></a>
+  <div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    <input id="q" type="text" placeholder="搜索…" oninput="doSearch()"></div>
+  <div class="nav-links" id="navLinks"></div></div></nav>
+<main>
+<div class="page-head"><div class="eyebrow">WORLD SETTING</div><h1>世界观</h1><p>魇灾 · 魇生物 · 觉醒 · 梦境行者 · 梦境行法</p></div>
+<div class="grid c2" id="pathMini"></div>
+<div class="entry" style="margin-top:18px">
+  <div class="eyebrow">CORE</div><h1>核心概念</h1>
+  <h2>魇灾</h2><p>人的梦境有概率引发灾变，多依托噩梦具现于现实。魇灾爆发并无规律，降临时相当于把梦中世界的规则搬到了现实一隅。随着扩散，这些投影会逐渐破裂、覆盖，甚至取代现实。在魇灾破碎的一瞬间，被卷入的现实生命都会被梦境「吐出来」，回归现实。</p>
+  <h2>魇生物</h2><p>梦境具现的并非只有死物，梦中的生命同样会被投影到现实，构成一具实体或直接窃取现实躯壳——这些从噩梦中「越狱」而出的生命被称为「魇生物」，一旦成功逃离噩梦，它就切实地变成了一个「人」。魇生物所在的区域，魇灾降临的概率远大于其他区域。</p>
+  <h2>梦境行者与觉醒</h2><p>被卷入魇灾的生命若在噩梦中获得超凡能力，有概率通过魇灾将能力带出梦境——这就是「<b>觉醒</b>」。前提是<b>在梦中保持清醒</b>。觉醒后的人被称为「<b>梦境行者</b>」，主动进入他人梦境时不会迷失自己（这也是加入特殊反应组的首要条件）。每一位梦境行者都必须接受官方管控、登记注册。</p>
+  <h2>梦境行法</h2><p>事务局将与生命相关的种种法律悉数搬进了梦里。一旦有公民非法操作致使他人死亡，都必须接受梦境行法的制裁，除非手法天衣无缝或拥有足够抗辩证据。</p>
+</div>
+<div class="entry">
+  <div class="eyebrow">GLOSSARY</div><h1>名词解释</h1>
+  <div class="grid c2" id="termsBox"></div>
+</div>
+</main>
+<footer><div class="links"><a href="index.html">首页</a><a href="world.html">世界观</a><a href="paths.html">四途</a><a href="chars.html">人物</a><a href="factions.html">势力</a><a href="yanzai.html">魇灾</a><a href="places.html">地点</a><a href="items.html">物件</a><a href="quiz.html">测试</a><a href="chapters.html">章节</a><a href="about.html">关于</a></div>旧日余烬设定百科 · 由读者搭建，仅供学习交流</footer>
+<button id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<script src="assets/data.js"></script><script src="assets/common.js"></script>
+<script>
+function initPage(){
+  document.getElementById('pathMini').innerHTML = paths.map(p=>`<div class="path-card ${p.cls}"><div class="p-icon">${p.emoji}</div><div class="p-key">${p.sub}</div><h3>${p.name}</h3><p>${p.desc}</p><div class="p-tags">${p.tags.map(t=>`<span>${t}</span>`).join('')}</div></div>`).join('');
+  document.getElementById('termsBox').innerHTML = Object.entries(terms).map(([k,v])=>`<div class="card"><h3 style="color:var(--accent2)">${k}</h3><p>${v}</p></div>`).join('');
+  observeNums();
+}
+</script></body></html>

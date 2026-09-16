@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>关于 | 旧日余烬 WIKI</title><link rel="stylesheet" href="assets/style.css"></head><body>
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html"><span class="logo">余</span><div>旧日余烬WIKI<small>EMBER OF OLD</small></div></a>
+  <div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    <input id="q" type="text" placeholder="搜索…" oninput="doSearch()"></div>
+  <div class="nav-links" id="navLinks"></div></div></nav>
+<main>
+<div class="page-head"><div class="eyebrow">ABOUT</div><h1>关于本百科</h1><p>读者自发整理的设定站，用于梳理人物关系、世界观与剧情脉络。</p></div>
+<div class="grid c2">
+  <div class="entry">
+    <div class="eyebrow">WORK</div><h1>作品简介</h1>
+    <p>「有人说，世界就是一场巨大的噩梦……」起初没人在意，直到人们醒来时眼前依旧残留着梦的痕迹。灾难席卷而来，现实崩塌殆尽，到最后只剩你我，在旧日的余烬中捡拾人类文明。</p>
+    <p><b>都市异能 × 梦境入侵 × 末日群像</b>，偏群像、无系统、不无敌、非爽文。</p>
+  </div>
+  <div class="entry">
+    <div class="eyebrow">SITE</div><h1>网站说明</h1>
+    <p>本站基于《旧日余烬》1-60 章 + 读者信息册整理，随连载持续更新。</p>
+    <h2 style="border:none;padding:0">技术</h2>
+    <p>纯静态多页面站点（每个模块一个 HTML），零依赖、无需构建。整个站点 = 1 个 CSS + 2 个 JS。部署到 GitHub Pages / Netlify / Vercel 均可，构建留空、发布目录填 <b>.</b> 即可。</p>
+    <h2 style="border:none;padding:0">如何贡献</h2>
+    <p>编辑 <b>assets/data.js</b> 中的数组（chars / factions / places / items / timeline / chapters / questions）即可增改内容，所有页面自动同步。</p>
+  </div>
+</div>
+<div class="entry">
+  <div class="eyebrow">LICENSE</div><h1>声明</h1>
+  <p>本站为粉丝非官方设定站，所有原著内容版权归作者一月九十秋所有。本站内容仅供学习交流，请勿用于商业用途。如发现内容有误，欢迎在仓库提交修正。</p>
+</div>
+</main>
+<footer><div class="links"><a href="index.html">首页</a><a href="world.html">世界观</a><a href="paths.html">四途</a><a href="chars.html">人物</a><a href="factions.html">势力</a><a href="yanzai.html">魇灾</a><a href="places.html">地点</a><a href="items.html">物件</a><a href="quiz.html">测试</a><a href="chapters.html">章节</a><a href="about.html">关于</a></div>旧日余烬设定百科 · 由读者搭建，仅供学习交流</footer>
+<button id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<script src="assets/data.js"></script><script src="assets/common.js"></script>
+<script>function initPage(){}</script></body></html>
